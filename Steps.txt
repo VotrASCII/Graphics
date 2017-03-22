@@ -1,0 +1,30 @@
+2D implementation
+Sodium Potassium pump:
+* movement of ions against their concentration gradient 
+* 3Na+ for every 2K+
+* movement on the expense of energy released on phosphorylsis of ATP to ADP and energy
+
+Na+:
+* circular in shape with "Na+" written on it.
+* show fluidic motion #camera function : +X
+* higher concentration outside, lower inside the plasma membrane 
+
+K+:
+* circular in shape with K+ written on it
+* radius K+>Na+
+* higher concentation inside, lower on the outside of plasma membrane
+* show fluidic motion #camera function : -X
+
+Glucose:
+* movement of glucose on expense of energy from electro-chemical gradient
+
+ATP action:
+* attaches itself to the cell by phosphorylsis action releasing ADP and energy
+* this energy is responsible for conformational change of the cell .i.e. opening from inside to opening outside
+
+Electrochemical gradient:
+* potential difference that sets up due to higher concentration of Na+ outside and lower concentration of Na+ inside
+* due to movement of Na+ against concentration gradient
+
+Channel protein:
+* pathway for glucose to pass through from lower concentration to higher concentration via. symporters (Secondary Active Transport)

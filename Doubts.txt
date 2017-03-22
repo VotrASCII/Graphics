@@ -1,0 +1,6 @@
+1. How to set trajectory/path of molecules which it has to follow?
+2. Design of cell which will show spaces for attachments of Na+ and K+
+3. Keyboard interrupt doesn't pause the animation
+4. glTranslatef(angle, aspect_ratio, near_camera_clip, far_camera_clip) shows the objects depth-wise, how to cast them length-wise?
+5. Detaching of P from ATP to form ADP
+6. initiializing the static bool paused = false results in error
