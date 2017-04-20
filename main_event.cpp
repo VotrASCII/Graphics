@@ -77,7 +77,7 @@ void cell_membrane(void)
                 glVertex2d(-40, -30);
                 glVertex2d(-55, -30);
         glEnd();
-        glPushMatrix();
+        //glPushMatrix();
         //movable parts
         if (cmxu <= 30 && !paused)
         {
