@@ -7,12 +7,10 @@ static bool paused = false;
 
 /*void *currentfont;
 int f = 0;
-
 void setFont(void *font)
 {
         currentfont = font;
 }
-
 void drawstring(float x, float y, float z, char *string)
 {
          char *c;
@@ -22,9 +20,7 @@ void drawstring(float x, float y, float z, char *string)
                 glColor3f(0.0, 0.0, 0.0);
                 glutBitmapCharacter(currentfont, *c);
          }
-
 }
-
  void first_page()
 {
         //glClear(GL_COLOR_BUFFER_BIT);
@@ -154,28 +150,102 @@ void channel_protein(void)
         }
 }
 
-/*void DrawCircle(float cx, float cy, float r, int num_segments)
+void cells(void)
 {
-    glBegin(GL_LINE_LOOP);
-    for(int ii = 0; ii < num_segments; ii++)
-    {
-        float theta = 2.0f * 3.1415926f * float(ii) / float(num_segments);//get the current angle
-
-        float x = r * cosf(theta);//calculate the x component
-        float y = r * sinf(theta);//calculate the y component
-
-        glVertex2f(x + cx, y + cy);//output vertex
-
-    }
-    glEnd();
-}*/
+        int j = 0, k = 0;
+        //right lower portion
+        for(int i = 1; i <= 7; i += 1)
+        {
+                glColor3f(0, 0.8, 0.7);
+                glBegin(GL_QUADS);
+                        glVertex2d(-35 + k, -30);
+                        glVertex2d(-40 + k, -30);
+                        glVertex2d(-40 + k, -25);
+                        glVertex2d(-35 + k, -25);
+                glEnd();
+                j += 0.07;
+                k += 10;
+        }
+        j = 0;
+        k = 0;
+        for(int i = 1; i <= 7; i += 1)
+        {
+                glColor3f(0, 1.0, 0.5);
+                glBegin(GL_QUADS);
+                        glVertex2d(-35 + k, -30);
+                        glVertex2d(-30 + k, -30);
+                        glVertex2d(-30 + k, -25);
+                        glVertex2d(-35 + k, -25);
+                glEnd();
+                j += 0.07;
+                k += 10;
+        }
+        //lower middle portion
+        j = 0;
+        k = 0;
+        for(int i = 1; i <= 7; i += 1)
+        {
+                glColor3f(0, 0.8, 0.7);
+                glBegin(GL_QUADS);
+                        glVertex2d(-35 + k, -30);
+                        glVertex2d(-40 + k, -30);
+                        glVertex2d(-40 + k, -25);
+                        glVertex2d(-35 + k, -25);
+                glEnd();
+                j += 0.07;
+                k += 10;
+        }
+        j = 0;
+        k = 0;
+        for(int i = 1; i <= 7; i += 1)
+        {
+                glColor3f(0, 1.0, 0.5);
+                glBegin(GL_QUADS);
+                        glVertex2d(-35 + k, -30);
+                        glVertex2d(-30 + k, -30);
+                        glVertex2d(-30 + k, -25);
+                        glVertex2d(-35 + k, -25);
+                glEnd();
+                j += 0.07;
+                k += 10;
+        }
+        //left lower portions
+        j = 0;
+        k = 0;
+        for(int i = 1; i <= 9; i += 1)
+        {
+                glColor3f(0, 0.8, 0.7);
+                glBegin(GL_QUADS); // Draw a filled rectangle with current color
+                        glVertex2d(-105 - k, -30);
+                        glVertex2d(-100 - k, -30);
+                        glVertex2d(-100 - k, -25);
+                        glVertex2d(-105 - k, -25);
+                glEnd();
+                j += 0.07;
+                k += 10;
+        }
+        j = 0;
+        k = 0;
+        for(int i = 1; i <= 8; i += 1)
+        {
+                glColor3f(0, 1.0, 0.5);
+                glBegin(GL_QUADS);
+                        glVertex2d(-105 - k, -30);
+                        glVertex2d(-110 - k, -30);
+                        glVertex2d(-110 - k, -25);
+                        glVertex2d(-105 - k, -25);
+                glEnd();
+                j += 0.07;
+                k += 10;
+        }
+}
 
 void display(void)
 {
         glClear(GL_COLOR_BUFFER_BIT ); //clear the window with current clearing color, i.e. removes the last drawing from the window
 //     first_page();
         cell_membrane();
-        //DrawCircle(-60, 35, 6.5, 1000);
+        cells();
         // sodium();
         //potassium();
         //ATP();
@@ -243,7 +313,7 @@ int main(int argc, char **argv)
         glutInitWindowPosition(0,0);
 //        init();
         glutCreateWindow("K+/Na+ pump"); // creates window on the screen
-        glClearColor(0, 0, 0, 0); //initialization before rendering
+        glClearColor(1,1,1,1); //initialization before rendering
         glutDisplayFunc(display); //called whenever window needs to be drawn
         glutKeyboardFunc(handleKeypress);
         glutReshapeFunc(reshape);
