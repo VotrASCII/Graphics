@@ -153,7 +153,80 @@ void channel_protein(void)
 void cells(void)
 {
         int j = 0, k = 0;
+         //right upper portion
+        for(int i = 1; i <= 7; i += 1)
+        {
+                glColor3f(0, 0.8, 0.7);
+                glBegin(GL_QUADS);
+                        glVertex2d(90 + k, 20);
+                        glVertex2d(95 + k, 20);
+                        glVertex2d(95 + k, 15);
+                        glVertex2d(90 + k, 15);
+                glEnd();
+                j += 0.07;
+                k += 10;
+        }
+        j = 0;
+        k = 0;
+        for(int i = 1; i <= 7; i += 1)
+        {
+                glColor3f(0, 1.0, 0.5);
+                glBegin(GL_QUADS);
+                        glVertex2d(95 + k, 20);
+                        glVertex2d(100 + k, 20);
+                        glVertex2d(100 + k, 15);
+                        glVertex2d(95 + k, 15);
+                glEnd();
+                j += 0.07;
+                k += 10;
+        }
+        //upper middle portion
+        j = 0;
+        k = 0;
+        for(int i = 1; i <= 7; i += 1)
+        {
+                glColor3f(0, 0.8, 0.7);
+                glBegin(GL_QUADS);
+                        glVertex2d(-35 + k, 20);
+                        glVertex2d(-40 + k, 20);
+                        glVertex2d(-40 + k, 15);
+                        glVertex2d(-35 + k, 15);
+                glEnd();
+                j += 0.07;
+                k += 10;
+        }
+        j = 0;
+        k = 0;
+        for(int i = 1; i <= 7; i += 1)
+        {
+                glColor3f(0, 1.0, 0.5);
+                glBegin(GL_QUADS);
+                        glVertex2d(-35 + k, 20);
+                        glVertex2d(-30 + k, 20);
+                        glVertex2d(-30 + k, 15);
+                        glVertex2d(-35 + k, 15);
+                glEnd();
+                j += 0.07;
+                k += 10;
+        }
+        //left upper portions
+        j = 0;
+        k = 0;
+        for(int i = 1; i <= 9; i += 1)
+        {
+                glColor3f(0, 0.8, 0.7);
+                glBegin(GL_QUADS); // Draw a filled rectangle with current color
+                        glVertex2d(-105 - k, 20);
+                        glVertex2d(-100 - k, 20);
+                        glVertex2d(-100 - k, 15);
+                        glVertex2d(-105 - k, 15);
+                glEnd();
+                j += 0.07;
+                k += 10;
+        }
         //right lower portion
+        j = 0;
+        k = 0;
         for(int i = 1; i <= 7; i += 1)
         {
                 glColor3f(0, 0.8, 0.7);
