@@ -77,31 +77,32 @@ void cell_membrane(void)
         //movable parts
         if (cmxu <= 30 && !paused)
         {
-                glPushMatrix();
-                glTranslatef(cmxu  , 0, 0);
-                glColor3f(1, 0.15, 0);
-                glBegin(GL_QUADS);
-                        glVertex2d(-85, 20);
-                        glVertex2d(-55, 20);
-                        glVertex2d(-55, 22);
-                        glVertex2d(-85, 22);
-                glEnd();
                 cmxu += 0.01;
-                glPopMatrix();
         }
+        glPushMatrix();
+        glTranslatef(cmxu, 0, 0);
+        glColor3f(1, 0.15, 0);
+        glBegin(GL_QUADS);
+                glVertex2d(-85, 20);
+                glVertex2d(-55, 20);
+                glVertex2d(-55, 22);
+                glVertex2d(-85, 22);
+        glEnd();
+        glPopMatrix();
+        
         if(cmxl >= -30 && !paused)
         {
-                glPushMatrix();
-                glTranslated(cmxl, 0, 0);
-                glBegin(GL_QUADS);
-                        glVertex2d(-55, -30);
-                        glVertex2d(-85, -30);
-                        glVertex2d(-85, -32);
-                        glVertex2d(-55, -32);
-                glEnd();
                 cmxl -= 0.01;
-                glPopMatrix();
         }
+        glPushMatrix();
+        glTranslated(cmxl, 0, 0);
+        glBegin(GL_QUADS);
+                glVertex2d(-55, -30);
+                glVertex2d(-85, -30);
+                glVertex2d(-85, -32);
+                glVertex2d(-55, -32);
+        glEnd();
+        glPopMatrix();
         //glPopMatrix();
 }
 
@@ -125,29 +126,29 @@ void channel_protein(void)
         //movable parts
         if (cpxl >= -30 && cpxu <= 30 && !paused)
         {
-                glPushMatrix();
-                glTranslatef(cpxu  , 0, 0);
-                glColor3f(0.25, 0.15, 0.75);
-                glBegin(GL_QUADS);
-                        glVertex2d(45, 20);
-                        glVertex2d(75, 20);
-                        glVertex2d(75, 22);
-                        glVertex2d(45, 22);
-                glEnd();
                 cpxu += 0.005;
-                glPopMatrix();
-
-                glPushMatrix();
-                glTranslated(cpxl, 0, 0);
-                glBegin(GL_QUADS);
-                        glVertex2d(75, -30);
-                        glVertex2d(45, -30);
-                        glVertex2d(45, -32);
-                        glVertex2d(75, -32);
-                glEnd();
                 cpxl -= 0.005;
-                glPopMatrix();
         }
+        glPushMatrix();
+        glTranslatef(cpxu  , 0, 0);
+        glColor3f(0.25, 0.15, 0.75);
+        glBegin(GL_QUADS);
+                glVertex2d(45, 20);
+                glVertex2d(75, 20);
+                glVertex2d(75, 22);
+                glVertex2d(45, 22);
+        glEnd();
+        glPopMatrix();
+        
+        glPushMatrix();
+        glTranslated(cpxl, 0, 0);
+        glBegin(GL_QUADS);
+                glVertex2d(75, -30);
+                glVertex2d(45, -30);
+                glVertex2d(45, -32);
+                glVertex2d(75, -32);
+        glEnd();
+        glPopMatrix();
 }
 
 void cells(void)
@@ -316,14 +317,14 @@ void cells(void)
 void display(void)
 {
         glClear(GL_COLOR_BUFFER_BIT ); //clear the window with current clearing color, i.e. removes the last drawing from the window
-//     first_page();
-        cell_membrane();
-        cells();
+//     first_page(); //done; final integration left
+        cell_membrane(); //partially done
+        cells(); //done
         // sodium();
         //potassium();
         //ATP();
         //glucose();
-        channel_protein();
+        channel_protein(); //partially done
         glFlush(); //causes any un-executed commands to be executed
         glutPostRedisplay(); // iteration over rendering
 }
