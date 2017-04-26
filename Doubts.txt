@@ -1,6 +1,12 @@
 1. How to set trajectory/path of molecules which it has to follow?
+Figure out the desired equation and input those points to translate function.
+
 2. Design of cell which will show spaces for attachments of Na+ and K+
+Dropped this idea, instead used a valve like simple object.
+
 3. Keyboard interrupt doesn't pause the animation
+Now,  it does!!
+
 4. glTranslatef(angle, aspect_ratio, near_camera_clip, far_camera_clip) shows the objects depth-wise, how to cast them length-wise?
 5. Detaching of P from ATP to form ADP
 6. initiializing the static bool paused = false results in error
