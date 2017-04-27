@@ -314,12 +314,46 @@ void cells(void)
         }
 }
 
+float indy = 0;
+void concentration_indicator(void)
+{
+        int k = 0, j = 0, l = 0;
+        for(int i=1; i <= 20; i += 1)
+        {
+                glColor3ub(255, 200 - k, 0 + j); // transparency indicating increase in electronic potential gradient
+                glBegin(GL_QUADS);
+                        glVertex2f(180, -45+l);
+                        glVertex2f(183, -45+l);
+                        glVertex2f(183, -50+l);
+                        glVertex2f(180, -50+l);
+                glEnd();
+                l += 5;
+                k += 10;
+                j += 8;
+        }
+        // indicator position
+        if (indy < 100 && !paused)
+        {
+                indy += 0.0168; // nothing serious just to syncronize with the channel protein
+        }
+        glPushMatrix();
+        glTranslated(0, indy, 0);
+        glColor3f(0, 0, 0);
+        glBegin(GL_POLYGON);
+                glVertex2d(179, -50);
+                glVertex2d(177, -48);
+                glVertex2d(177, -52);
+        glEnd();
+        glPopMatrix();
+}
+
 void display(void)
 {
         glClear(GL_COLOR_BUFFER_BIT ); //clear the window with current clearing color, i.e. removes the last drawing from the window
 //     first_page(); //done; final integration left
         cell_membrane(); //partially done
         cells(); //done
+        concentration_indicator(); //done
         // sodium();
         //potassium();
         //ATP();
