@@ -1,8 +1,16 @@
-2D implementation
+Concept:
 Sodium Potassium pump:
-* movement of ions against their concentration gradient 
-* 3Na+ for every 2K+
-* movement on the expense of energy released on phosphorylsis of ATP to ADP and energy
+--> movement of ions against their concentration gradient 
+--> 3Na+ for every 2K+
+--> movement on the expense of energy released on phosphorylsis of ATP to ADP and energy
+
+Implementation: (2D)
+Cell Membrane "void cell_membrane(void);":
+* the region that show the cell extension and is used to distinguish the outer region and inner region of the cell
+* static region
+* shows no movement, only helps in distinguishing inside and outside of the cell
+* opening on the inner region to let Na+ from inside to outside
+* opening on the outer region to let K+ from outside to inside
 
 Na+:
 * circular in shape with "Na+" written on it.
@@ -11,20 +19,30 @@ Na+:
 
 K+:
 * circular in shape with K+ written on it
-* radius K+>Na+
+* Note: radius K+>Na+
 * higher concentation inside, lower on the outside of plasma membrane
 * show fluidic motion #camera function : -X
 
 Glucose:
+* hexagonal shape; since C.6-H.12-O.6
 * movement of glucose on expense of energy from electro-chemical gradient
+* two functions to define the movement:
+* void glucose_out_in(void): the ones that will transit from outside to inside
+* void glucose_out_in(void): the ones which will just stay outside
 
 ATP action:
 * attaches itself to the cell by phosphorylsis action releasing ADP and energy
 * this energy is responsible for conformational change of the cell .i.e. opening from inside to opening outside
 
 Electrochemical gradient:
-* potential difference that sets up due to higher concentration of Na+ outside and lower concentration of Na+ inside
+* potential difference sets up due to higher concentration of Na+ outside and lower concentration of Na+ inside; increased +ve charge
 * due to movement of Na+ against concentration gradient
+* void concentration_indicator(void): indicator to show the rise in concentration or potential gradient build up
 
 Channel protein:
 * pathway for glucose to pass through from lower concentration to higher concentration via. symporters (Secondary Active Transport)
+* void channel_protein(void):
+    * consist of two gates
+    * one opening to let the outside molecules come in; i.e. from outside environment to inside
+    * another one that lets the molecule from the outside to pass in to inside of the cell
+    
