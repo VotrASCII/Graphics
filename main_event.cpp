@@ -73,14 +73,14 @@ void cell_membrane(void)
                 glVertex2d(-40, -30);
                 glVertex2d(-55, -30);
         glEnd();
-        //glPushMatrix();
+
         //movable parts
         if (cmxu <= 30 && !paused)
         {
-                cmxu += 0.01;
+                cmxu += 0.008;
         }
         glPushMatrix();
-        glTranslatef(cmxu, 0, 0);
+        glTranslatef(cmxu  , 0, 0);
         glColor3f(1, 0.15, 0);
         glBegin(GL_QUADS);
                 glVertex2d(-85, 20);
@@ -89,10 +89,10 @@ void cell_membrane(void)
                 glVertex2d(-85, 22);
         glEnd();
         glPopMatrix();
-        
+
         if(cmxl >= -30 && !paused)
         {
-                cmxl -= 0.01;
+                 cmxl -= 0.008;
         }
         glPushMatrix();
         glTranslated(cmxl, 0, 0);
@@ -103,58 +103,12 @@ void cell_membrane(void)
                 glVertex2d(-55, -32);
         glEnd();
         glPopMatrix();
-        //glPopMatrix();
 }
 
-float cpxl = 0, cpxu = 0; // active transport initiation for glucose transportation when potential builds up
-void channel_protein(void)
-{
-        glColor3f(0, 1, 1);
-        glBegin(GL_QUADS); // Draw a filled rectangle with current color
-                glVertex2d(30, 20);
-                glVertex2d(45, 20);
-                glVertex2d(45, -30);
-                glVertex2d(30, -30);
-        glEnd();
-        glBegin(GL_QUADS);
-                glVertex2d(75, 20);
-                glVertex2d(90, 20);
-                glVertex2d(90, -30);
-                glVertex2d(75, -30);
-        glEnd();
-
-        //movable parts
-        if (cpxl >= -30 && cpxu <= 30 && !paused)
-        {
-                cpxu += 0.005;
-                cpxl -= 0.005;
-        }
-        glPushMatrix();
-        glTranslatef(cpxu  , 0, 0);
-        glColor3f(0.25, 0.15, 0.75);
-        glBegin(GL_QUADS);
-                glVertex2d(45, 20);
-                glVertex2d(75, 20);
-                glVertex2d(75, 22);
-                glVertex2d(45, 22);
-        glEnd();
-        glPopMatrix();
-        
-        glPushMatrix();
-        glTranslated(cpxl, 0, 0);
-        glBegin(GL_QUADS);
-                glVertex2d(75, -30);
-                glVertex2d(45, -30);
-                glVertex2d(45, -32);
-                glVertex2d(75, -32);
-        glEnd();
-        glPopMatrix();
-}
-
-void cells(void)
+void cells(void) //total;y static
 {
         int j = 0, k = 0;
-         //right upper portion
+        //right upper portion
         for(int i = 1; i <= 7; i += 1)
         {
                 glColor3f(0, 0.8, 0.7);
@@ -225,6 +179,20 @@ void cells(void)
                 j += 0.07;
                 k += 10;
         }
+        j = 0;
+        k = 0;
+        for(int i = 1; i <= 8; i += 1)
+        {
+                glColor3f(0, 1.0, 0.5);
+                glBegin(GL_QUADS);
+                        glVertex2d(-105 - k, 20);
+                        glVertex2d(-110 - k, 20);
+                        glVertex2d(-110 - k, 15);
+                        glVertex2d(-105 - k, 15);
+                glEnd();
+                j += 0.07;
+                k += 10;
+        }
         //right lower portion
         j = 0;
         k = 0;
@@ -232,10 +200,10 @@ void cells(void)
         {
                 glColor3f(0, 0.8, 0.7);
                 glBegin(GL_QUADS);
-                        glVertex2d(-35 + k, -30);
-                        glVertex2d(-40 + k, -30);
-                        glVertex2d(-40 + k, -25);
-                        glVertex2d(-35 + k, -25);
+                        glVertex2d(90 + k, -30);
+                        glVertex2d(95 + k, -30);
+                        glVertex2d(95 + k, -25);
+                        glVertex2d(90 + k, -25);
                 glEnd();
                 j += 0.07;
                 k += 10;
@@ -246,10 +214,10 @@ void cells(void)
         {
                 glColor3f(0, 1.0, 0.5);
                 glBegin(GL_QUADS);
-                        glVertex2d(-35 + k, -30);
-                        glVertex2d(-30 + k, -30);
-                        glVertex2d(-30 + k, -25);
-                        glVertex2d(-35 + k, -25);
+                        glVertex2d(95 + k, -30);
+                        glVertex2d(100 + k, -30);
+                        glVertex2d(100 + k, -25);
+                        glVertex2d(95 + k, -25);
                 glEnd();
                 j += 0.07;
                 k += 10;
@@ -317,10 +285,10 @@ void cells(void)
 float indy = 0;
 void concentration_indicator(void)
 {
-        int k = 0, j = 0, l = 0;
+        int k = 0, l = 0;
         for(int i=1; i <= 20; i += 1)
         {
-                glColor3ub(255, 200 - k, 0 + j); // transparency indicating increase in electronic potential gradient
+                glColor3ub(230 - k, 0 + k, 0); // transition of color indicating increase in electronic gradient potential
                 glBegin(GL_QUADS);
                         glVertex2f(180, -45+l);
                         glVertex2f(183, -45+l);
@@ -329,16 +297,15 @@ void concentration_indicator(void)
                 glEnd();
                 l += 5;
                 k += 10;
-                j += 8;
         }
         // indicator position
         if (indy < 100 && !paused)
         {
-                indy += 0.0168; // nothing serious just to syncronize with the channel protein
+                indy += 0.0134; //for syncing with channel protein gateway
         }
         glPushMatrix();
         glTranslated(0, indy, 0);
-        glColor3f(0, 0, 0);
+        glColor3f(1, 1, 1);
         glBegin(GL_POLYGON);
                 glVertex2d(179, -50);
                 glVertex2d(177, -48);
@@ -347,20 +314,104 @@ void concentration_indicator(void)
         glPopMatrix();
 }
 
+float goxp = 0, goxn = 0;
+void glucose_out(void)
+{
+        glPushMatrix();
+        if(goxp <= 20 && !paused)
+        {
+                goxp += 0.0053;
+                glTranslatef(goxp, 0, 0);
+                goxn = goxp;
+        }
+        else if(goxn >= 0 && !paused)
+        {
+                goxn -= 0.0053;
+                glTranslatef(goxn, 0, 0);
+        }
+        glColor3f(0.5, 1, 0.4);
+        int k = 0;
+        for(int i = 1; i <= 10; i += 1)
+        {
+                glBegin(GL_POLYGON);
+                        glVertex2f(-110+ k, 50);
+                        glVertex2f(-115 + k, 45);
+                        glVertex2f(-110 + k, 40);
+                        glVertex2f(-105 + k, 40);
+                        glVertex2f(-100 + k, 45);
+                        glVertex2f(-105 + k, 50);
+                glEnd();
+                k += 25;
+        }
+        glPopMatrix();
+}
+
+/*float glulx = 0, glurx = 0, gluy = 0; //glucose movement
+void glucose_out_in(void)
+{
+                glColor3f()
+}*/
+
+float cpxl = 0, cpxu = 0; // active transport initiation for glucose transportation when potential builds up
+void channel_protein(void)
+{
+        glColor3f(0, 1, 1);
+        glBegin(GL_QUADS); // Draw a filled rectangle with current color
+                glVertex2d(30, 20);
+                glVertex2d(45, 20);
+                glVertex2d(45, -30);
+                glVertex2d(30, -30);
+        glEnd();
+        glBegin(GL_QUADS);
+                glVertex2d(75, 20);
+                glVertex2d(90, 20);
+                glVertex2d(90, -30);
+                glVertex2d(75, -30);
+        glEnd();
+
+        //movable parts
+        if (cpxl >= -30 && cpxu <= 30 && !paused)
+        {
+                cpxu += 0.004;
+                cpxl -= 0.004;
+        }
+        glPushMatrix();
+        glTranslatef(cpxu, 0, 0);
+        glColor3f(0.25, 0.15, 0.75);
+        glBegin(GL_QUADS);
+                glVertex2d(45, 20);
+                glVertex2d(75, 20);
+                glVertex2d(75, 22);
+                glVertex2d(45, 22);
+        glEnd();
+        glPopMatrix();
+        glPushMatrix();
+        glTranslated(cpxl, 0, 0);
+        glBegin(GL_QUADS);
+                glVertex2d(75, -30);
+                glVertex2d(45, -30);
+                glVertex2d(45, -32);
+                glVertex2d(75, -32);
+        glEnd();
+        glPopMatrix();
+}
+
 void display(void)
 {
-        glClear(GL_COLOR_BUFFER_BIT ); //clear the window with current clearing color, i.e. removes the last drawing from the window
-//     first_page(); //done; final integration left
-        cell_membrane(); //partially done
+        glClear(GL_COLOR_BUFFER_BIT );//clear the window with current clearing color, i.e. removes the last drawing from the window
+//     first_page();
+        cell_membrane(); //partially done, i.e. opening
         cells(); //done
         concentration_indicator(); //done
         // sodium();
         //potassium();
         //ATP();
-        //glucose();
-        channel_protein(); //partially done
-        glFlush(); //causes any un-executed commands to be executed
-        glutPostRedisplay(); // iteration over rendering
+        glucose_out(); //done
+        //glucose_out_in();
+        channel_protein(); //partially done, i.e. opening
+        //glFlush(); //causes any un-executed commands to be executed
+        glutSwapBuffers(); //for animation; glFlush() not required as it implicitly applies before rendering
+        glutPostRedisplay(); // iteration over rendering to show the movable parts
 }
 
 void reshape(GLsizei w, GLsizei h)
@@ -392,7 +443,6 @@ void reshape(GLsizei w, GLsizei h)
 
 void handleKeypress(unsigned char key, int x, int y)
  {
-         //text();
         switch (key)
         {
                 //case 13:
@@ -400,7 +450,6 @@ void handleKeypress(unsigned char key, int x, int y)
                 case 'p':       paused = !paused;
                                          break;
         }
-        //glutPostRedisplay();
 }
 
 /*void init()
@@ -413,15 +462,15 @@ void handleKeypress(unsigned char key, int x, int y)
 int main(int argc, char **argv)
 {
         glutInit(&argc, argv); //to pass command line arguments and initialize GLUT library
-        glutInitDisplayMode(GLUT_SINGLE|GLUT_RGBA); /*type of display mode : DOUBLE buffered, i.e. drawing commands executed off-screen
+        glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA); /*type of display mode : DOUBLE buffered, i.e. drawing commands executed off-screen
                                                                                                                         *and swapped into view of the window, for ANIMATION
                                                                                                                         *SINGLE buffered, i.e. drawing commands are performed on the window displayed
                                                                                                                         *RGBA, i.e. specify colors with separate intensities */
-        glutInitWindowSize(640, 480);
+        glutInitWindowSize(1000, 480);
         glutInitWindowPosition(0,0);
 //        init();
         glutCreateWindow("K+/Na+ pump"); // creates window on the screen
-        glClearColor(1,1,1,1); //initialization before rendering
+        glClearColor(0, 0, 0 , 0); //initialization before rendering
         glutDisplayFunc(display); //called whenever window needs to be drawn
         glutKeyboardFunc(handleKeypress);
         glutReshapeFunc(reshape);
