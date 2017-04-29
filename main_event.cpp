@@ -57,7 +57,7 @@ void drawstring(float x, float y, float z, char *string)
         //glFlush();
 } */
 
-float cmxl = 0, cmxu = 0; // cell membrane selective opening
+float cmlxn = 0, cmlxp = 0,  cmuxn = 0, cmuxp = 0; // cell membrane selective opening
 void cell_membrane(void)
 {
         glColor3f(0, 1, 0);
@@ -75,27 +75,19 @@ void cell_membrane(void)
         glEnd();
 
         //movable parts
-        if (cmxu <= 30 && !paused)
-        {
-                cmxu += 0.008;
-        }
         glPushMatrix();
-        glTranslatef(cmxu  , 0, 0);
         glColor3f(1, 0.15, 0);
-        glBegin(GL_QUADS);
-                glVertex2d(-85, 20);
-                glVertex2d(-55, 20);
-                glVertex2d(-55, 22);
-                glVertex2d(-85, 22);
-        glEnd();
-        glPopMatrix();
-
-        if(cmxl >= -30 && !paused)
+        if(cmlxn >= -30 && !paused)
         {
-                 cmxl -= 0.008;
+                cmlxn -= 0.008;
+                glTranslated(cmlxn, 0, 0);
+                cmlxp = cmlxn;
         }
-        glPushMatrix();
-        glTranslated(cmxl, 0, 0);
+        else if (cmlxp <= 0 && !paused)
+        {
+                cmlxp += 0.008;
+                glTranslated(cmlxp, 0, 0);
+        }
         glBegin(GL_QUADS);
                 glVertex2d(-55, -30);
                 glVertex2d(-85, -30);
@@ -103,9 +95,29 @@ void cell_membrane(void)
                 glVertex2d(-55, -32);
         glEnd();
         glPopMatrix();
+
+        glPushMatrix();
+        if (cmuxp <= 30 && !paused)
+        {
+                cmuxp += 0.008;
+                glTranslatef(cmuxp  , 0, 0);
+                cmuxn = cmuxp;
+        }
+        else if (cmuxn >= 0 && !paused)
+        {
+                cmuxn -= 0.008;
+                glTranslatef(cmuxn  , 0, 0);
+        }
+        glBegin(GL_QUADS);
+                glVertex2d(-85, 20);
+                glVertex2d(-55, 20);
+                glVertex2d(-55, 22);
+                glVertex2d(-85, 22);
+        glEnd();
+        glPopMatrix();
 }
 
-void cells(void) //total;y static
+void cells(void) //totally static
 {
         int j = 0, k = 0;
         //right upper portion
@@ -352,7 +364,9 @@ void glucose_out_in(void)
                 glColor3f()
 }*/
 
-float cpxl = 0, cpxu = 0; // active transport initiation for glucose transportation when potential builds up
+// active transport initiation for glucose transportation when potential builds up; i.e. channel protein opens-up
+float cplxn = 0, cplxp = 0;
+float cpuxp = 0, cpuxn = 0;
 void channel_protein(void)
 {
         glColor3f(0, 1, 1);
@@ -368,30 +382,44 @@ void channel_protein(void)
                 glVertex2d(90, -30);
                 glVertex2d(75, -30);
         glEnd();
-
-        //movable parts
-        if (cpxl >= -30 && cpxu <= 30 && !paused)
-        {
-                cpxu += 0.004;
-                cpxl -= 0.004;
-        }
-        glPushMatrix();
-        glTranslatef(cpxu, 0, 0);
         glColor3f(0.25, 0.15, 0.75);
-        glBegin(GL_QUADS);
-                glVertex2d(45, 20);
-                glVertex2d(75, 20);
-                glVertex2d(75, 22);
-                glVertex2d(45, 22);
-        glEnd();
-        glPopMatrix();
         glPushMatrix();
-        glTranslated(cpxl, 0, 0);
+        //movable parts
+        if (cplxn >= -30 && !paused)
+        {
+                cplxn -= 0.008;
+                glTranslatef(cplxn, 0, 0);
+                cplxp = cplxn;
+        }
+        else if (cplxp <= 0 && !paused)
+        {
+                cplxp += 0.008;
+                glTranslatef(cplxp, 0, 0);
+        }
         glBegin(GL_QUADS);
                 glVertex2d(75, -30);
                 glVertex2d(45, -30);
                 glVertex2d(45, -32);
                 glVertex2d(75, -32);
+        glEnd();
+        glPopMatrix();
+        glPushMatrix();
+        if (cpuxp <= 30 && !paused)
+        {
+                cpuxp += 0.008;
+                glTranslatef(cpuxp, 0, 0);
+                cpuxn = cpuxp;
+        }
+        else if (cpuxn >= 0 && !paused)
+        {
+                cpuxn -= 0.008;
+                glTranslatef(cpuxn, 0, 0);
+        }
+        glBegin(GL_QUADS);
+                glVertex2d(45, 20);
+                glVertex2d(75, 20);
+                glVertex2d(75, 22);
+                glVertex2d(45, 22);
         glEnd();
         glPopMatrix();
 }
