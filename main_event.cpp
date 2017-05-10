@@ -4,6 +4,7 @@
 using namespace std;
 
 static bool paused = false;
+int obj;
 
 #define title 0
 #define initial 1
@@ -11,7 +12,6 @@ static bool paused = false;
 #define quit 3
 
 //adding menu
-int obj;
 void menu_select(int item)
 {
         obj = item;
@@ -25,7 +25,7 @@ void setFont(void *font)
         currentfont = font;
 }
 
-void draw_bit_string(float x, float y, float z, char *string)
+void drawstring(float x, float y, float z, char *string)
 {
          char *c;
          glRasterPos3f(x,y,z);
@@ -49,36 +49,35 @@ void draw_stroke_string(char *string)
 {
         glClear(GL_COLOR_BUFFER_BIT);
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
-        glColor3f(0.529, 0.808, 0.922);
-        draw_bit_string(100.0, 455.0, 1.0,"******* * * * * * * * * * INTRODUCTION * * * * * * * * * *********");
+        glColor3f(1, 0.5, 0);
+        drawstring(-85.0, 90, 1.0,"******* * * * * * * * * * TITLE * * * * * * * * * *********");
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
         glColor3f(0.0, 0.0, 1.0);
-        draw_bit_string(160.0, 430.0, 1.0,"PESIT BANGLORE SOUTH CAMPUS");
-        glColor3f(0.0, 0.0, 1.0);
-        draw_bit_string(100.0, 400.0, 1.0,"DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING");
+        drawstring(-55.0, 75, 1.0,"PESIT BANGLORE SOUTH CAMPUS");
+        glColor3f(0.0, 1.0, 1.0);
+        drawstring(-100, 60, 1.0,"DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING");
         glColor3f(0.863, 0.078, 0.235);
-        draw_bit_string(130.0, 360.0, 1.0,"A MINI PROJECT ON SODIUM/POTASSIUM PUMP");
-        glColor3f(1.000, 0.843, 0.000);
-        draw_bit_string(120.0, 330.0, 1.0,"");
-        glColor3f(0.678, 1.000, 0.184);
+        drawstring(-90.0, 36, 1.0,"A MINI PROJECT ON   \"SODIUM/POTASSIUM\"    PUMP");
+        glColor3f(1, 0.84, 0.0);
         setFont(GLUT_BITMAP_9_BY_15);
-        draw_bit_string(120.0, 250.0, 1.0,"BY");
-        glColor3f(1.000, 0.843, 0.000);
-        draw_bit_string(120.0, 330.0, 1.0,"");
+        drawstring(-120.0, 10, 1.0,"BY:...");
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
         glColor3f(0.502, 0.000, 0.502);
-        draw_bit_string(120.0, 230.0, 1.0,"1. GUNJAN DWIVEDI                                1PE14CS044");
+        drawstring(-120.0, 0.0, 1.0,"1. GUNJAN DWIVEDI                                                                   1PE14CS044");
         glColor3f(0.502, 0.000, 0.502);
-        draw_bit_string(120.0, 210.0, 1.0,"2. MAYANK PRAKASH                             1PE14CS070");
+        drawstring(-120.0, -10.0, 1.0,"2. MAYANK PRAKASH                                                                1PE14CS070");
+        setFont(GLUT_BITMAP_9_BY_15);
         glColor3f(0.95, 0.15, 0.0);
-        draw_bit_string(120.0, 150.0, 1.0,"UNDER THE GUIDANCE OF");
+        drawstring(-120.0, -40.0, 1.0,"UNDER THE GUIDANCE OF");
+        setFont(GLUT_BITMAP_TIMES_ROMAN_24);
         glColor3f(0.502, 0.502, 0.000);
-        draw_bit_string(120.0, 130.0, 1.0,"1. Ms. Shubha Raj");
+        drawstring(-120.0, -50.0, 1.0,"1. Ms. SHUBHA RAJ");
         glColor3f(0.502, 0.502, 0.000);
-        draw_bit_string(120.0, 110.0, 1.0,"2. Dr. Sarasvathi");
+        drawstring(-120.0, -60.0, 1.0,"2. Dr. SARASVATHI");
         glColor3f(0.196, 0.804, 0.196);
-        draw_bit_string(200.0, 50.0, 1.0,"PRESS ENTER TO START");
-        //glFlush();
+        drawstring(-30.0, -80.0, 1.0,"RIGHT CLICK TO START");
+        glutSwapBuffers();
+        glutPostRedisplay();
 }
 
 float cmlxn = 0, cmlxp = 0,  cmuxn = 0, cmuxp = 0; // cell membrane selective opening
@@ -245,7 +244,10 @@ void cells(void) //total static
         }
         glColor3f(1, 1, 1);
         setFont(GLUT_BITMAP_HELVETICA_12);
-        draw_bit_string(-185, 25, 0, "Outer Region");
+        drawstring(-185, 25, 0, "Outer Region");
+        drawstring(-185, -12.5, 0, "DIFFUSION");
+        drawstring(-15, -12.5, 0, "DIFFUSION");
+        drawstring(105, -12.5, 0, "DIFFUSION");
         //right lower portion
         j = 0;
         k = 0;
@@ -335,7 +337,14 @@ void cells(void) //total static
         }
         glColor3f(1, 1, 1);
         setFont(GLUT_BITMAP_HELVETICA_12);
-        draw_bit_string(-185, -40, 0, "Inner Region");
+        drawstring(-185, -40, 0, "Inner Region");
+        glColor3f(0, 0, 0);
+        drawstring(-185, -29.5, 0, "CELLS");
+        drawstring(-185, 16, 0, "CELLS");
+        drawstring(-5, -29.5, 0, "CELLS");
+        drawstring(-5, 16, 0, "CELLS");
+        drawstring(115, -29.5, 0, "CELLS");
+        drawstring(115, 16, 0, "CELLS");
 }
 
 float indy = 0;
@@ -650,6 +659,19 @@ void channel_protein(void)
         glPopMatrix();
 }
 
+void functionality(void)
+{
+        cell_membrane(); //partially done, i.e. opening and closing. waiting yet to be deployed
+        cells(); //done
+        concentration_indicator(); //done
+        sodium(); // modeling done, translation left
+        ATP(); // partially done. transition to ADP left over
+        potassium(); // modelling done, translation left
+        glucose_out(); //done
+        //glucose_out_in();
+        channel_protein(); //partially done, i.e. opening and closing. waiting yet to be deployed
+}
+
 void display(void)
 {
         glClear(GL_COLOR_BUFFER_BIT );//clear the window with current clearing color, i.e. removes the last drawing from the window
@@ -659,27 +681,12 @@ void display(void)
                         first_page();
                         break;
                 case initial:
-                        cell_membrane();
-                        cells();
-                        concentration_indicator();
-                        sodium();
-                        ATP();
-                        potassium();
-                        glucose_out();
-                        channel_protein();
+                        functionality();
                         glutSwapBuffers();
                         break;
                 //rotation yet to applied
                 case action:
-                        cell_membrane(); //partially done, i.e. opening and closing. waiting yet to be deployed
-                        cells(); //done
-                        concentration_indicator(); //done
-                        sodium(); // modeling done, translation left
-                        ATP(); // partially done. transition to ADP left over
-                        potassium(); // modelling done, translation left
-                        glucose_out(); //done
-                        //glucose_out_in();
-                        channel_protein(); //partially done, i.e. opening and closing. waiting yet to be deployed
+                        functionality();
                         glutSwapBuffers(); //for animation; glFlush() not required as it implicitly applies before rendering
                         glutPostRedisplay();// iteration over rendering to show the movable parts
                         break;
@@ -742,7 +749,7 @@ int main(int argc, char **argv)
                                                                                                                         *RGBA, i.e. specify colors with separate intensities */
         glutInitWindowSize(1000, 480);
         glutInitWindowPosition(0,0);
-//        init();
+      //  init();
         glutCreateWindow("Na+/K+ pump"); // creates window on the screen
         glClearColor(0, 0, 0 , 0); //initialization before rendering
         glutDisplayFunc(display); //called whenever window needs to be drawn
@@ -753,7 +760,6 @@ int main(int argc, char **argv)
         glutAddMenuEntry("quit", quit);
         glutAttachMenu(GLUT_RIGHT_BUTTON);
         glutKeyboardFunc(handleKeypress);
-//        glutIdleFunc(display);
         glutReshapeFunc(reshape);
         glutMainLoop();
         return 0;
