@@ -12,52 +12,61 @@ void setFont(void *font)
         currentfont = font;
 }
 
-void drawstring(float x, float y, float z, char *string)
+void draw_bit_string(float x, float y, float z, char *string)
 {
          char *c;
          glRasterPos3f(x,y,z);
          for(c = string; *c != '\0'; c++)
          {
-                glColor3f(0.0, 0.0, 0.0);
+                //glColor3f(0.0, 0.0, 0.0);
                 glutBitmapCharacter(currentfont, *c);
          }
 }
 
-/* void first_page()
+void draw_stroke_string(char *string)
 {
-        //glClear(GL_COLOR_BUFFER_BIT);
+         char *c;
+         for(c = string; *c != '\0'; c++)
+         {
+                glutStrokeCharacter(currentfont, *c);
+         }
+}
+
+ /*void first_page()
+{
+        glClear(GL_COLOR_BUFFER_BIT);
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
         glColor3f(0.529, 0.808, 0.922);
-        drawstring(100.0, 455.0, 1.0,"******* * * * * * * * * * INTRODUCTION * * * * * * * * * *********");
+        draw_bit_string(100.0, 455.0, 1.0,"******* * * * * * * * * * INTRODUCTION * * * * * * * * * *********");
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
         glColor3f(0.0, 0.0, 1.0);
-        drawstring(160.0, 430.0, 1.0,"PESIT BANGLORE SOUTH CAMPUS");
+        draw_bit_string(160.0, 430.0, 1.0,"PESIT BANGLORE SOUTH CAMPUS");
         glColor3f(0.0, 0.0, 1.0);
-        drawstring(100.0, 400.0, 1.0,"DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING");
+        draw_bit_string(100.0, 400.0, 1.0,"DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING");
         glColor3f(0.863, 0.078, 0.235);
-        drawstring(130.0, 360.0, 1.0,"A MINI PROJECT ON SODIUM/POTASSIUM PUMP");
+        draw_bit_string(130.0, 360.0, 1.0,"A MINI PROJECT ON SODIUM/POTASSIUM PUMP");
         glColor3f(1.000, 0.843, 0.000);
-        drawstring(120.0, 330.0, 1.0,"");
+        draw_bit_string(120.0, 330.0, 1.0,"");
         glColor3f(0.678, 1.000, 0.184);
         setFont(GLUT_BITMAP_9_BY_15);
-        drawstring(120.0, 250.0, 1.0,"BY");
+        draw_bit_string(120.0, 250.0, 1.0,"BY");
         glColor3f(1.000, 0.843, 0.000);
-        drawstring(120.0, 330.0, 1.0,"");
+        draw_bit_string(120.0, 330.0, 1.0,"");
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
         glColor3f(0.502, 0.000, 0.502);
-        drawstring(120.0, 230.0, 1.0,"1. GUNJAN DWIVEDI                                1PE14CS044");
+        draw_bit_string(120.0, 230.0, 1.0,"1. GUNJAN DWIVEDI                                1PE14CS044");
         glColor3f(0.502, 0.000, 0.502);
-        drawstring(120.0, 210.0, 1.0,"2. MAYANK PRAKASH                             1PE14CS070");
+        draw_bit_string(120.0, 210.0, 1.0,"2. MAYANK PRAKASH                             1PE14CS070");
         glColor3f(0.95, 0.15, 0.0);
-        drawstring(120.0, 150.0, 1.0,"UNDER THE GUIDANCE OF");
+        draw_bit_string(120.0, 150.0, 1.0,"UNDER THE GUIDANCE OF");
         glColor3f(0.502, 0.502, 0.000);
-        drawstring(120.0, 130.0, 1.0,"1. Ms. Shubha Raj");
+        draw_bit_string(120.0, 130.0, 1.0,"1. Ms. Shubha Raj");
         glColor3f(0.502, 0.502, 0.000);
-        drawstring(120.0, 110.0, 1.0,"2. Dr. Sarasvathi");
+        draw_bit_string(120.0, 110.0, 1.0,"2. Dr. Sarasvathi");
         glColor3f(0.196, 0.804, 0.196);
-        drawstring(200.0, 50.0, 1.0,"PRESS ENTER TO START");
-        //glFlush();
-} */
+        draw_bit_string(200.0, 50.0, 1.0,"PRESS ENTER TO START");
+        glFlush();
+}*/
 
 float cmlxn = 0, cmlxp = 0,  cmuxn = 0, cmuxp = 0; // cell membrane selective opening
 void cell_membrane(void)
@@ -116,6 +125,20 @@ void cell_membrane(void)
                 glVertex2d(-55, 22);
                 glVertex2d(-85, 22);
         glEnd();
+        glPopMatrix();
+        glColor3f(0, 0, 0);
+        glPushMatrix();
+        glTranslatef(-45, -28, 0);
+        glScalef(0.03, 0.05, 0);
+        glRotatef(90, 0, 0, 1);
+        setFont(GLUT_STROKE_ROMAN);
+        draw_stroke_string("Cell Membrane");
+        glPopMatrix();
+        glPushMatrix();
+        glTranslatef(-90, -28, 0);
+        glScalef(0.03, 0.05, 0);
+        glRotatef(90, 0, 0, 1);
+        draw_stroke_string("Cell Membrane");
         glPopMatrix();
 }
 
@@ -195,7 +218,7 @@ void cells(void) //total static
         }
         j = 0;
         k = 0;
-        for(int i = 1; i <= 8; i += 1)
+        for(int i = 1; i <= 9; i += 1)
         {
                 glColor3f(0, 1.0, 0.5);
                 glBegin(GL_QUADS);
@@ -207,6 +230,9 @@ void cells(void) //total static
                 j += 0.07;
                 k += 10;
         }
+        glColor3f(1, 1, 1);
+        setFont(GLUT_BITMAP_HELVETICA_12);
+        draw_bit_string(-185, 25, 0, "Outer Region");
         //right lower portion
         j = 0;
         k = 0;
@@ -282,7 +308,7 @@ void cells(void) //total static
         }
         j = 0;
         k = 0;
-        for(int i = 1; i <= 8; i += 1)
+        for(int i = 1; i <= 9; i += 1)
         {
                 glColor3f(0, 1.0, 0.5);
                 glBegin(GL_QUADS);
@@ -294,6 +320,9 @@ void cells(void) //total static
                 j += 0.07;
                 k += 10;
         }
+        glColor3f(1, 1, 1);
+        setFont(GLUT_BITMAP_HELVETICA_12);
+        draw_bit_string(-185, -40, 0, "Inner Region");
 }
 
 float indy = 0;
@@ -326,6 +355,14 @@ void concentration_indicator(void)
                 glVertex2d(177, -52);
         glEnd();
         glPopMatrix();
+        glPushMatrix();
+        glColor3f(1, 0.5, 0);
+        glTranslatef(185, 35, 0);
+        glScalef(0.05, 0.05, 0);
+        glRotatef(-90, 0, 0, 1);
+        setFont(GLUT_STROKE_ROMAN);
+        draw_stroke_string("Concentration Indicator");
+        glPopMatrix();
 }
 
 float nalx = 0, narx = 0;
@@ -344,24 +381,23 @@ void sodium(void)
                 nalx -= 0.0053;
                 glTranslatef(nalx, 0, 0);
         }
-        for(int i = 1; i <= 9; i += 1)
+        for(int i = 1; i <= 6; i += 1)
         {
                 glPushMatrix();
-                glColor3f(0.5, 0, 0.2);
+                glColor3f(0.5, 0.75, 0);
                 glBegin(GL_POLYGON);
-                        glVertex2d(-100 + k, -45);
-                        glVertex2d(-105 + k, -50);
-                        glVertex2d(-100 + k, -55);
-                        glVertex2d(-95 + k, -50);
+                        glVertex2d(-120 + k, -45);
+                        glVertex2d(-125 + k, -50);
+                        glVertex2d(-120 + k, -55);
+                        glVertex2d(-115 + k, -50);
                 glEnd();
-                glColor3f(0, 0, 1);
-                glTranslatef(-102.75 + k, -51.5, 0);
+                glColor3f(0, 0, 0.5);
+                glTranslatef(-123 + k, -51.5, 0);
                 glScalef(0.03, 0.025, 0);
-                glutStrokeCharacter(GLUT_STROKE_ROMAN, 'N');
-                glutStrokeCharacter(GLUT_STROKE_ROMAN, 'a');
-                glutStrokeCharacter(GLUT_STROKE_ROMAN, '+');
+                setFont(GLUT_STROKE_ROMAN);
+                draw_stroke_string("Na+");
                 glPopMatrix();
-                k += 25;
+                k += 50;
         }
         glPopMatrix();
 }
@@ -382,8 +418,9 @@ void ATP(void)
                 atprx += 0.0053;
                 glTranslatef(atprx, 0, 0);
         }
-        for(int i = 0; i <= 5; i += 1)
+        for(int i = 1; i <= 3; i += 1)
         {
+                glPushMatrix();
                 glColor3f(0, 1, 1);
                 glBegin(GL_POLYGON);
                         glVertex2d(-120 + k, -90);
@@ -411,7 +448,13 @@ void ATP(void)
                         glVertex2d(-112 + k, -75);
                         glVertex2d(-118 + k, -75);
                 glEnd();
-                k += 45;
+                glColor3f(1, 0, 0);
+                glTranslatef(-121 + k, -87, 0);
+                glScalef(0.05, 0.03, 0);
+                setFont(GLUT_STROKE_ROMAN);
+                draw_stroke_string("ATP");
+                glPopMatrix();
+                k += 90;
         }
         glPopMatrix();
 }
@@ -432,7 +475,7 @@ void potassium(void)
                 klx -= 0.0053;
                 glTranslatef(klx, 0, 0);
         }
-        for(int i = 1; i <= 6; i += 1)
+        for(int i = 1; i <= 4; i += 1)
         {
                 glPushMatrix();
                 glColor3f(0.8, 0.3, 0.5);
@@ -445,10 +488,10 @@ void potassium(void)
                 glColor3f(0, 0, 1);
                 glTranslatef(-92.5 + k, 40.5, 0);
                 glScalef(0.05, 0.03, 0);
-                glutStrokeCharacter(GLUT_STROKE_ROMAN, 'K');
-                glutStrokeCharacter(GLUT_STROKE_ROMAN, '+');
+                setFont(GLUT_STROKE_ROMAN);
+                draw_stroke_string("K+");
                 glPopMatrix();
-                k += 25;
+                k += 45;
         }
         glPopMatrix();
 }
@@ -468,10 +511,11 @@ void glucose_out(void)
                 goxp += 0.0053;
                 glTranslatef(goxp, 0, 0);
         }
-        glColor3f(0.5, 1, 0.4);
         int k = 0;
-        for(int i = 1; i <= 5; i += 1)
+        for(int i = 1; i <= 3; i += 1)
         {
+                glPushMatrix();
+                glColor3f(0.5, 1, 0.4);
                 glBegin(GL_POLYGON);
                         glVertex2f(-110 + k, 90);
                         glVertex2f(-115 + k, 85);
@@ -480,12 +524,19 @@ void glucose_out(void)
                         glVertex2f(-100 + k, 85);
                         glVertex2f(-105 + k, 90);
                 glEnd();
-                k += 50;
+                glColor3f(1, 0, 0);
+                glTranslatef(-112.5 + k, 83.5, 0);
+                glScalef(0.05, 0.03, 0);
+                setFont(GLUT_STROKE_ROMAN);
+                draw_stroke_string("Glucose");
+                glPopMatrix();
+                k += 100;
         }
-        glColor3f(1, 1, 0.2);
         k = 0;
-        for (int i = 1; i <= 5; i +=1)
+        for (int i = 1; i <= 3; i +=1)
         {
+                glPushMatrix();
+                glColor3f(1, 1, 0.2);
                 glBegin(GL_POLYGON);
                         glVertex2f(-108 + k, 75);
                         glVertex2f(-113 + k, 70);
@@ -494,7 +545,13 @@ void glucose_out(void)
                         glVertex2f(-103 + k, 65);
                         glVertex2f(-103 + k, 70);
                 glEnd();
-                k += 50;
+                glColor3f(1, 0, 0);
+                glTranslatef(-112.5 + k, 65.5, 0);
+                glScalef(0.05, 0.03, 0);
+                setFont(GLUT_STROKE_ROMAN);
+                draw_stroke_string("C6H12O6");
+                glPopMatrix();
+                k += 100;
         }
         glPopMatrix();
 }
@@ -564,12 +621,26 @@ void channel_protein(void)
                 glVertex2d(45, 22);
         glEnd();
         glPopMatrix();
+        glColor3f(0, 0, 0);
+        glPushMatrix();
+        glTranslatef(40, -28, 0);
+        glScalef(0.025, 0.045, 0);
+        glRotatef(90, 0, 0, 1);
+        setFont(GLUT_STROKE_ROMAN);
+        draw_stroke_string("Channel Protein");
+        glPopMatrix();
+        glPushMatrix();
+        glTranslatef(85, -28, 0);
+        glScalef(0.025, 0.045, 0);
+        glRotatef(90, 0, 0, 1);
+        draw_stroke_string("Channel Protein");
+        glPopMatrix();
 }
 
 void display(void)
 {
         glClear(GL_COLOR_BUFFER_BIT );//clear the window with current clearing color, i.e. removes the last drawing from the window
-     //       first_page();
+//        first_page();
         // rotation yet to be applied
         cell_membrane(); //partially done, i.e. opening and closing. waiting yet to be deployed
         cells(); //done
@@ -615,7 +686,6 @@ void handleKeypress(unsigned char key, int x, int y)
  {
         switch (key)
         {
-                //case 13:
                 case 27:        exit(0); //Escape key
                 case 'p':       paused = !paused;
                                          break;
@@ -643,6 +713,7 @@ int main(int argc, char **argv)
         glClearColor(0, 0, 0 , 0); //initialization before rendering
         glutDisplayFunc(display); //called whenever window needs to be drawn
         glutKeyboardFunc(handleKeypress);
+//        glutIdleFunc(display);
         glutReshapeFunc(reshape);
         glutMainLoop();
         return 0;
