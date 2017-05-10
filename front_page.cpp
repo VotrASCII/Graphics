@@ -21,46 +21,44 @@ void drawstring(float x, float y, float z, char *string)
          glRasterPos3f(x,y,z);
          for(c = string; *c != '\0'; c++)
          {
-                glColor3f(0.0, 0.0, 0.0);
                 glutBitmapCharacter(currentfont, *c);
          }
 
 }
 
 void text()
-{
+{       
         glClear(GL_COLOR_BUFFER_BIT);
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
-        glColor3f(0.529, 0.808, 0.922);
-        drawstring(100.0, 455.0, 1.0,"******* * * * * * * * * * INTRODUCTION * * * * * * * * * *********");
+        glColor3f(1, 0.5, 0);
+        drawstring(-85.0, 90, 1.0,"******* * * * * * * * * * TITLE * * * * * * * * * *********");
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
         glColor3f(0.0, 0.0, 1.0);
-        drawstring(160.0, 430.0, 1.0,"PESIT BANGLORE SOUTH CAMPUS");
-        glColor3f(0.0, 0.0, 1.0);
-        drawstring(100.0, 400.0, 1.0,"DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING");
+        drawstring(-55.0, 75, 1.0,"PESIT BANGLORE SOUTH CAMPUS");
+        glColor3f(0.0, 1.0, 1.0);
+        drawstring(-100, 60, 1.0,"DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING");
         glColor3f(0.863, 0.078, 0.235);
-        drawstring(130.0, 360.0, 1.0,"A MINI PROJECT ON SODIUM/POTASSIUM PUMP");
-        glColor3f(1.000, 0.843, 0.000);
-        drawstring(120.0, 330.0, 1.0,"");
-        glColor3f(0.678, 1.000, 0.184);
+        drawstring(-90.0, 36, 1.0,"A MINI PROJECT ON   \"SODIUM/POTASSIUM\"    PUMP");
+        glColor3f(1, 0.84, 0.0);
         setFont(GLUT_BITMAP_9_BY_15);
-        drawstring(120.0, 250.0, 1.0,"BY");
-        glColor3f(1.000, 0.843, 0.000);
-        drawstring(120.0, 330.0, 1.0,"");
+        drawstring(-120.0, 10, 1.0,"BY:...");
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
         glColor3f(0.502, 0.000, 0.502);
-        drawstring(120.0, 230.0, 1.0,"1. GUNJAN DWIVEDI                                1PE14CS044");
+        drawstring(-120.0, 0.0, 1.0,"1. GUNJAN DWIVEDI                                                                   1PE14CS044");
         glColor3f(0.502, 0.000, 0.502);
-        drawstring(120.0, 210.0, 1.0,"2. MAYANK PRAKASH                             1PE14CS070");
+        drawstring(-120.0, -10.0, 1.0,"2. MAYANK PRAKASH                                                                1PE14CS070");
+        setFont(GLUT_BITMAP_9_BY_15);
         glColor3f(0.95, 0.15, 0.0);
-        drawstring(120.0, 150.0, 1.0,"UNDER THE GUIDANCE OF");
+        drawstring(-120.0, -40.0, 1.0,"UNDER THE GUIDANCE OF");
+        setFont(GLUT_BITMAP_TIMES_ROMAN_24);
         glColor3f(0.502, 0.502, 0.000);
-        drawstring(120.0, 130.0, 1.0,"1. Ms. Shubha Raj");
+        drawstring(-120.0, -50.0, 1.0,"1. Ms. SHUBHA RAJ");
         glColor3f(0.502, 0.502, 0.000);
-        drawstring(120.0, 110.0, 1.0,"2. Dr. Sarasvathi");
+        drawstring(-120.0, -60.0, 1.0,"2. Dr. SARASVATHI");
         glColor3f(0.196, 0.804, 0.196);
-        drawstring(200.0, 50.0, 1.0,"PRESS ENTER TO START");
-        glFlush();
+        drawstring(-30.0, -80.0, 1.0,"RIGHT CLICK TO START");
+        glutSwapBuffers();
+        glutPostRedisplay();
 }
 
 /*void mydisplay()
