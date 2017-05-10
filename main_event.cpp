@@ -5,12 +5,13 @@ using namespace std;
 
 static bool paused = false;
 
-/*void *currentfont;
+void *currentfont;
 int f = 0;
 void setFont(void *font)
 {
         currentfont = font;
 }
+
 void drawstring(float x, float y, float z, char *string)
 {
          char *c;
@@ -21,7 +22,8 @@ void drawstring(float x, float y, float z, char *string)
                 glutBitmapCharacter(currentfont, *c);
          }
 }
- void first_page()
+
+/* void first_page()
 {
         //glClear(GL_COLOR_BUFFER_BIT);
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
@@ -342,15 +344,23 @@ void sodium(void)
                 nalx -= 0.0053;
                 glTranslatef(nalx, 0, 0);
         }
-        glColor3f(0.5, 0, 0.2);
         for(int i = 1; i <= 9; i += 1)
         {
+                glPushMatrix();
+                glColor3f(0.5, 0, 0.2);
                 glBegin(GL_POLYGON);
                         glVertex2d(-100 + k, -45);
                         glVertex2d(-105 + k, -50);
                         glVertex2d(-100 + k, -55);
                         glVertex2d(-95 + k, -50);
                 glEnd();
+                glColor3f(0, 0, 1);
+                glTranslatef(-102.75 + k, -51.5, 0);
+                glScalef(0.03, 0.025, 0);
+                glutStrokeCharacter(GLUT_STROKE_ROMAN, 'N');
+                glutStrokeCharacter(GLUT_STROKE_ROMAN, 'a');
+                glutStrokeCharacter(GLUT_STROKE_ROMAN, '+');
+                glPopMatrix();
                 k += 25;
         }
         glPopMatrix();
@@ -422,15 +432,22 @@ void potassium(void)
                 klx -= 0.0053;
                 glTranslatef(klx, 0, 0);
         }
-        glColor3f(0.8, 0.3, 0.5);
         for(int i = 1; i <= 6; i += 1)
         {
+                glPushMatrix();
+                glColor3f(0.8, 0.3, 0.5);
                 glBegin(GL_POLYGON);
                         glVertex2d(-90 + k, 35);
                         glVertex2d(-97 + k, 42);
                         glVertex2d(-90 + k, 49);
                         glVertex2d(-83 + k, 42);
                 glEnd();
+                glColor3f(0, 0, 1);
+                glTranslatef(-92.5 + k, 40.5, 0);
+                glScalef(0.05, 0.03, 0);
+                glutStrokeCharacter(GLUT_STROKE_ROMAN, 'K');
+                glutStrokeCharacter(GLUT_STROKE_ROMAN, '+');
+                glPopMatrix();
                 k += 25;
         }
         glPopMatrix();
@@ -491,6 +508,7 @@ void glucose_out(void)
 // active transport initiation for glucose transportation when potential builds up; i.e. channel protein opens-up
 float cplxn = 0, cplxp = 0;
 float cpuxp = 0, cpuxn = 0;
+int c=0;
 void channel_protein(void)
 {
         glColor3f(0, 1, 1);
@@ -515,7 +533,7 @@ void channel_protein(void)
                 glTranslatef(cplxn, 0, 0);
                 cplxp = cplxn;
         }
-        else if (cplxp <= 0 && !paused)
+       else if (cplxp <= 0 && !paused)
         {
                 cplxp += 0.008;
                 glTranslatef(cplxp, 0, 0);
@@ -551,7 +569,7 @@ void channel_protein(void)
 void display(void)
 {
         glClear(GL_COLOR_BUFFER_BIT );//clear the window with current clearing color, i.e. removes the last drawing from the window
-        //     first_page();
+     //       first_page();
         // rotation yet to be applied
         cell_membrane(); //partially done, i.e. opening and closing. waiting yet to be deployed
         cells(); //done
