@@ -5,6 +5,19 @@ using namespace std;
 
 static bool paused = false;
 
+#define title 0
+#define initial 1
+#define action 2
+#define quit 3
+
+//adding menu
+int obj;
+void menu_select(int item)
+{
+        obj = item;
+        glutPostRedisplay();
+}
+
 void *currentfont;
 int f = 0;
 void setFont(void *font)
@@ -32,7 +45,7 @@ void draw_stroke_string(char *string)
          }
 }
 
- /*void first_page()
+ void first_page()
 {
         glClear(GL_COLOR_BUFFER_BIT);
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
@@ -65,8 +78,8 @@ void draw_stroke_string(char *string)
         draw_bit_string(120.0, 110.0, 1.0,"2. Dr. Sarasvathi");
         glColor3f(0.196, 0.804, 0.196);
         draw_bit_string(200.0, 50.0, 1.0,"PRESS ENTER TO START");
-        glFlush();
-}*/
+        //glFlush();
+}
 
 float cmlxn = 0, cmlxp = 0,  cmuxn = 0, cmuxp = 0; // cell membrane selective opening
 void cell_membrane(void)
@@ -640,19 +653,40 @@ void channel_protein(void)
 void display(void)
 {
         glClear(GL_COLOR_BUFFER_BIT );//clear the window with current clearing color, i.e. removes the last drawing from the window
-//        first_page();
-        // rotation yet to be applied
-        cell_membrane(); //partially done, i.e. opening and closing. waiting yet to be deployed
-        cells(); //done
-        concentration_indicator(); //done
-        sodium(); // modeling done, translation left
-        ATP(); // partially done. transition to ADP left over
-        potassium(); // modelling done, translation left
-        glucose_out(); //done
-        //glucose_out_in();
-        channel_protein(); //partially done, i.e. opening and closing. waiting yet to be deployed
-        glutSwapBuffers(); //for animation; glFlush() not required as it implicitly applies before rendering
-        glutPostRedisplay();// iteration over rendering to show the movable parts
+        switch(obj)
+        {
+                case title:
+                        first_page();
+                        break;
+                case initial:
+                        cell_membrane();
+                        cells();
+                        concentration_indicator();
+                        sodium();
+                        ATP();
+                        potassium();
+                        glucose_out();
+                        channel_protein();
+                        glutSwapBuffers();
+                        break;
+                //rotation yet to applied
+                case action:
+                        cell_membrane(); //partially done, i.e. opening and closing. waiting yet to be deployed
+                        cells(); //done
+                        concentration_indicator(); //done
+                        sodium(); // modeling done, translation left
+                        ATP(); // partially done. transition to ADP left over
+                        potassium(); // modelling done, translation left
+                        glucose_out(); //done
+                        //glucose_out_in();
+                        channel_protein(); //partially done, i.e. opening and closing. waiting yet to be deployed
+                        glutSwapBuffers(); //for animation; glFlush() not required as it implicitly applies before rendering
+                        glutPostRedisplay();// iteration over rendering to show the movable parts
+                        break;
+                case quit:
+                        exit(0);
+                        break;
+        }
 }
 
 void reshape(GLsizei w, GLsizei h)
@@ -702,7 +736,7 @@ void handleKeypress(unsigned char key, int x, int y)
 int main(int argc, char **argv)
 {
         glutInit(&argc, argv); //to pass command line arguments and initialize GLUT library
-        glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA); /*type of display mode : DOUBLE buffered, i.e. drawing commands executed off-screen
+        glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA); /*type of display mode : DOUBLE buffered, i.e. drawing commands executed off-screen
                                                                                                                         *and swapped into view of the window, for ANIMATION
                                                                                                                         *SINGLE buffered, i.e. drawing commands are performed on the window displayed
                                                                                                                         *RGBA, i.e. specify colors with separate intensities */
@@ -712,6 +746,12 @@ int main(int argc, char **argv)
         glutCreateWindow("Na+/K+ pump"); // creates window on the screen
         glClearColor(0, 0, 0 , 0); //initialization before rendering
         glutDisplayFunc(display); //called whenever window needs to be drawn
+        glutCreateMenu(menu_select);
+        glutAddMenuEntry("title", title);
+        glutAddMenuEntry("initial configuration", initial);
+        glutAddMenuEntry("how it happens", action);
+        glutAddMenuEntry("quit", quit);
+        glutAttachMenu(GLUT_RIGHT_BUTTON);
         glutKeyboardFunc(handleKeypress);
 //        glutIdleFunc(display);
         glutReshapeFunc(reshape);
