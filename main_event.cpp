@@ -1,10 +1,11 @@
 #include <iostream>
 #include<GL/glut.h>
 #include<math.h>
+
 using namespace std;
 
 static bool paused = false;
-int obj;
+int obj, k;
 
 #define title 0
 #define initial 1
@@ -47,7 +48,7 @@ void draw_stroke_string(char *string)
          }
 }
 
- void first_page()
+void first_page()
 {
         glClear(GL_COLOR_BUFFER_BIT);
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
@@ -158,7 +159,8 @@ void cell_membrane(void)
 
 void cells(void) //total static
 {
-        int j = 0, k = 0;
+        int j = 0;
+        k = 0;
         //right upper portion
         for(int i = 1; i <= 7; i += 1)
         {
@@ -349,10 +351,11 @@ void cells(void) //total static
         drawstring(115, 16, 0, "CELLS");
 }
 
-float indy = 0, x = 0;
+float indpy = 0, indny = 0, x = 0;
 void concentration_indicator(void)
 {
-        int k = 0, l = 0;
+        int l = 0;
+        k = 0;
         for(int i=1; i <= 20; i += 1)
         {
                 glColor3ub(230 - k, 0 + k, 0); // transparency indicating increase in electronic gradient potential
@@ -365,14 +368,23 @@ void concentration_indicator(void)
                 l += 5;
                 k += 10;
         }
+
         // indicator position
-        if (indy < 100 && !paused)
-        {
-                indy += 0.013;//for syncing with channel protein gateway
-        }
-        x = indy;
         glPushMatrix();
-        glTranslated(0, indy, 0);
+        if (indpy < 100 && !paused) /*when electrochemical potential builds up, the energy is invested in opening up of channel protein and transportation
+                                                        of glucose*/
+        {
+                indpy += 0.013;//for syncing with channel protein gateway
+                glTranslated(0, indpy, 0);
+                indny = indpy;
+        }
+        else if (indny > 0 && !paused) /*added because when the transportation happens the built up energy is invested resulting in
+                                                        decrease in built up potential which eventually results in closing of channel protein*/
+        {
+                indny -= 0.01305; //Why higher than "indpy"?? Because energy is consumed in opening channels and transportation
+                glTranslated(0, indny, 0);
+        }
+        x = indpy;
         glColor3f(1, 1, 1);
         glBegin(GL_POLYGON);
                 glVertex2d(179, -50);
@@ -390,39 +402,99 @@ void concentration_indicator(void)
         glPopMatrix();
 }
 
-float nalx = 0, narx = 0;
-void sodium(void)
+float nailx = 0, nairx = 0;
+void sodium_in(void)
 {
-        int k = 0;
+        k = 0;
         glPushMatrix();
-        if (narx <= 20 && !paused)
+        if (nairx <= 20 && !paused)
         {
-                narx += 0.0053;
-                glTranslatef(narx, 0, 0);
-                nalx = narx;
+                nairx += 0.0053;
+                glTranslatef(nairx, 0, 0);
+                nailx = nairx;
         }
-        else if (nalx > 0 && !paused)
+        else if (nailx > 0 && !paused)
         {
-                nalx -= 0.0053;
-                glTranslatef(nalx, 0, 0);
+                nailx -= 0.0053;
+                glTranslatef(nailx, 0, 0);
         }
         for(int i = 1; i <= 6; i += 1)
         {
                 glPushMatrix();
                 glColor3f(0.5, 0.75, 0);
-                glBegin(GL_POLYGON);
-                        glVertex2d(-120 + k, -45);
-                        glVertex2d(-125 + k, -50);
-                        glVertex2d(-120 + k, -55);
-                        glVertex2d(-115 + k, -50);
-                glEnd();
+                if (i <= 3)
+                {
+                        glBegin(GL_POLYGON);
+                                glVertex2d(-40 + k -10, -45);
+                                glVertex2d(-45 + k -10, -50);
+                                glVertex2d(-40 + k -10, -55);
+                                glVertex2d(-35 + k -10, -50);
+                        glEnd();
+                        glTranslatef(-43 + k -10, -51.5, 0);
+                }
+                else
+                {
+                        glBegin(GL_POLYGON);
+                                glVertex2d(-40 + k, -45);
+                                glVertex2d(-45 + k, -50);
+                                glVertex2d(-40 + k, -55);
+                                glVertex2d(-35 + k, -50);
+                        glEnd();
+                        glTranslatef(-43 + k, -51.5, 0);
+                }
                 glColor3f(0, 0, 0.5);
-                glTranslatef(-123 + k, -51.5, 0);
                 glScalef(0.03, 0.025, 0);
                 setFont(GLUT_STROKE_ROMAN);
                 draw_stroke_string("Na+");
                 glPopMatrix();
-                k += 15;
+                k += 12;
+        }
+        glPopMatrix();
+}
+
+float nalx = 0, narx = 0, nay = 0;
+void sodium_in_out(void)
+{
+        glPushMatrix();
+        glRotatef(90, 0, 0, 1);
+        if (nay <= 160 && !paused)
+        {
+                nay += 0.0053;
+        }
+        glTranslatef(nay, 0, 0);
+        k = 0;
+        for(int i = 1; i <= 6; i += 1)
+        {
+                glPushMatrix();
+                glTranslatef(-80, 113, 0);
+                glColor3f(0.5, 0.75, 0.5);
+                if (i <= 3)
+                {
+                        glBegin(GL_POLYGON);
+                                glVertex2d(-40 + k - 10, -45);
+                                glVertex2d(-45 + k - 10, -50);
+                                glVertex2d(-40 + k - 10, -55);
+                                glVertex2d(-35 + k - 10, -50);
+                        glEnd();
+                        glTranslatef(-41.5 + k - 10, -47, 0);
+                }
+                else
+                {
+                        glBegin(GL_POLYGON);
+                                glVertex2d(-40 + k, -45);
+                                glVertex2d(-45 + k, -50);
+                                glVertex2d(-40 + k, -55);
+                                glVertex2d(-35 + k, -50);
+                        glEnd();
+                        glTranslatef(-41.5 + k, -47, 0);
+                }
+                glColor3f(0, 0, 0.5);
+                glRotatef(-90, 0, 0, 1);
+                glScalef(0.03, 0.025, 0);
+                setFont(GLUT_STROKE_ROMAN);
+                draw_stroke_string("Na+");
+                glPopMatrix();
+                k += 12;
         }
         glPopMatrix();
 }
@@ -430,7 +502,7 @@ void sodium(void)
 float atplx = 0, atprx = 0;
 void ATP(void)
 {
-        int k = 0;
+        k = 0;
         glPushMatrix();
         if (atplx >= -20 && !paused)
         {
@@ -443,80 +515,140 @@ void ATP(void)
                 atprx += 0.0053;
                 glTranslatef(atprx, 0, 0);
         }
-        for(int i = 1; i <= 3; i += 1)
+        for(int i = 1; i <= 4; i += 1)
         {
                 glPushMatrix();
                 glColor3f(0, 1, 1);
                 glBegin(GL_POLYGON);
-                        glVertex2d(-120 + k, -90);
-                        glVertex2d(-110 + k, -90);
-                        glVertex2d(-115 + k, -80);
+                        glVertex2d(-20 + k, -90);
+                        glVertex2d(-10 + k, -90);
+                        glVertex2d(-15 + k, -80);
                 glEnd();
                 glColor3f(1, 1, 0);
                 glBegin(GL_POLYGON);
-                        glVertex2d(-120 + k, -90);
-                        glVertex2d(-123 + k, -95);
-                        glVertex2d(-117 + k, -95);
+                        glVertex2d(-20 + k, -90);
+                        glVertex2d(-23 + k, -95);
+                        glVertex2d(-17 + k, -95);
                 glEnd();
                 glBegin(GL_POLYGON);
-                        glVertex2d(-110 + k, -90);
-                        glVertex2d(-113 + k, -95);
-                        glVertex2d(-107 + k, -95);
+                        glVertex2d(-10 + k, -90);
+                        glVertex2d(-13 + k, -95);
+                        glVertex2d(-7 + k, -95);
                 glEnd();
                 glBegin(GL_POLYGON);
-                        glVertex2d(-120 + k, -90);
-                        glVertex2d(-123 + k, -95);
-                        glVertex2d(-117 + k, -95);
+                        glVertex2d(-20 + k, -90);
+                        glVertex2d(-23 + k, -95);
+                        glVertex2d(-17 + k, -95);
                 glEnd();
                 glBegin(GL_POLYGON);
-                        glVertex2d(-115 + k, -80);
-                        glVertex2d(-112 + k, -75);
-                        glVertex2d(-118 + k, -75);
+                        glVertex2d(-15 + k, -80);
+                        glVertex2d(-12 + k, -75);
+                        glVertex2d(-18 + k, -75);
                 glEnd();
                 glColor3f(1, 0, 0);
-                glTranslatef(-121 + k, -87, 0);
+                glTranslatef(-21 + k, -87, 0);
                 glScalef(0.05, 0.03, 0);
                 setFont(GLUT_STROKE_ROMAN);
                 draw_stroke_string("ATP");
                 glPopMatrix();
-                k += 50;
+                k += 25;
         }
         glPopMatrix();
 }
 
-float klx = 0, krx = 0;
-void potassium(void)
+float kolx = 0, korx = 0;
+void potassium_out(void)
 {
-        int k = 0;
+        k = 0;
         glPushMatrix();
-        if (krx <= 20 && !paused)
+        if (korx <= 20 && !paused)
         {
-                krx += 0.0053;
-                glTranslatef(krx, 0, 0);
-                klx = krx;
+                korx += 0.0053;
+                glTranslatef(korx, 0, 0);
+                kolx = korx;
         }
-        else if (klx > 0 && !paused)
+        else if (kolx > 0 && !paused)
         {
-                klx -= 0.0053;
-                glTranslatef(klx, 0, 0);
+                kolx -= 0.0053;
+                glTranslatef(kolx, 0, 0);
         }
         for(int i = 1; i <= 4; i += 1)
         {
                 glPushMatrix();
                 glColor3f(0.8, 0.3, 0.5);
-                glBegin(GL_POLYGON);
-                        glVertex2d(-90 + k, 35);
-                        glVertex2d(-97 + k, 42);
-                        glVertex2d(-90 + k, 49);
-                        glVertex2d(-83 + k, 42);
-                glEnd();
+                if (i <= 2)
+                {
+                        glBegin(GL_POLYGON);
+                                glVertex2d(-40 - 10 + k, 35);
+                                glVertex2d(-47 - 10 + k, 42);
+                                glVertex2d(-40 - 10 + k, 49);
+                                glVertex2d(-33 - 10 + k, 42);
+                        glEnd();
+                        glTranslatef(-44 - 10 + k, 41, 0);
+                }
+                else
+                {
+                        glBegin(GL_POLYGON);
+                                glVertex2d(-40 + k, 35);
+                                glVertex2d(-47 + k, 42);
+                                glVertex2d(-40 + k, 49);
+                                glVertex2d(-33 + k, 42);
+                        glEnd();
+                        glTranslatef(-44 + k, 41, 0);
+                }
                 glColor3f(0, 0, 1);
-                glTranslatef(-92.5 + k, 40.5, 0);
                 glScalef(0.05, 0.03, 0);
                 setFont(GLUT_STROKE_ROMAN);
                 draw_stroke_string("K+");
                 glPopMatrix();
-                k += 25;
+                k += 16;
+        }
+        glPopMatrix();
+}
+
+float klx = 0, krx = 0, ky = 0;
+void potassium_out_in(void)
+{
+        glPushMatrix();
+        glRotatef(90, 0, 0, 1);
+        glTranslatef(100, 35, 0);
+        if(ky >= -120 && !paused)
+        {
+                ky -= 0.02;
+        }
+        glTranslatef(ky, 0, 0);
+        k = 0;
+        for(int i = 1; i <= 4; i += 1)
+        {
+                glPushMatrix();
+                glColor3f(0.8, 0.4, 0);
+                if(i <= 2)
+                {
+                         glBegin(GL_POLYGON);
+                                glVertex2d(-70 -10 + k, 35);
+                                glVertex2d(-77 -10 + k, 42);
+                                glVertex2d(-70 -10 + k, 49);
+                                glVertex2d(-63 -10 + k, 42);
+                        glEnd();
+                        glTranslatef(-72 + k - 10, 46, 0);
+                }
+                else
+                {
+                        glBegin(GL_POLYGON);
+                                glVertex2d(-70 + k, 35);
+                                glVertex2d(-77 + k, 42);
+                                glVertex2d(-70 + k, 49);
+                                glVertex2d(-63 + k, 42);
+                        glEnd();
+                        glTranslatef(-72 + k, 46, 0);
+                }
+                glColor3f(0, 0, 1);
+                glRotatef(-90, 0, 0, 1);
+                glScalef(0.05, 0.03, 0);
+                setFont(GLUT_STROKE_ROMAN);
+                draw_stroke_string("K+");
+                glPopMatrix();
+                k += 16;
         }
         glPopMatrix();
 }
@@ -536,26 +668,26 @@ void glucose_out(void)
                 goxp += 0.0053;
                 glTranslatef(goxp, 0, 0);
         }
-        int k = 0;
-        for(int i = 1; i <= 5; i += 1)
+        k = 0;
+        for(int i = 1; i <= 3; i += 1)
         {
                 glPushMatrix();
                 glColor3f(0.5, 1, 0.4);
                 glBegin(GL_POLYGON);
-                        glVertex2f(-130 + k, 90);
-                        glVertex2f(-135 + k, 85);
-                        glVertex2f(-130 + k, 80);
-                        glVertex2f(-125 + k, 80);
-                        glVertex2f(-120 + k, 85);
-                        glVertex2f(-125 + k, 90);
+                        glVertex2f(-30 + k, 90);
+                        glVertex2f(-35 + k, 85);
+                        glVertex2f(-30 + k, 80);
+                        glVertex2f(-25 + k, 80);
+                        glVertex2f(-20 + k, 85);
+                        glVertex2f(-25 + k, 90);
                 glEnd();
                 glColor3f(1, 0, 0);
-                glTranslatef(-138 + k, 83.5, 0);
+                glTranslatef(-38 + k, 83.5, 0);
                 glScalef(0.05, 0.03, 0);
                 setFont(GLUT_STROKE_ROMAN);
                 draw_stroke_string("Glucose");
                 glPopMatrix();
-                k += 40;
+                k += 30;
         }
         glPopMatrix();
 }
@@ -588,11 +720,11 @@ void glucose_out_in(void)
                         glTranslatef(0, glurx, 0);
                 }
         }
-        int k = 0;
-        for (int i = 1; i <= 3; i +=1)
+        k = 0;
+        for (int i = 1; i <= 2; i +=1)
         {
                 glPushMatrix();
-                glColor3f(1, 1, 0.2);
+                glColor3f(1, 1, 0.2); //color difference just to show these clowns will be transported
                 glBegin(GL_POLYGON);
                         glVertex2f(-143 + k, 75);
                         glVertex2f(-148 + k, 70);
@@ -634,6 +766,7 @@ void channel_protein(void)
         glEnd();
         glColor3f(0.25, 0.15, 0.75);
         glPushMatrix();
+
         //movable parts
         if (x > 100 && !paused)
         {
@@ -645,13 +778,13 @@ void channel_protein(void)
                 }
                else if (cplxp <= 0 && !paused)
                 {
-                        if (cplxp <= -23 && !paused)
+                        if (cplxp <= -24 && !paused)
                         {
                                 cplxp += 0.002;
                         }
                         else
                         {
-                                cplxp += 0.024;
+                                cplxp += 0.026;
                         }
                         glTranslatef(cplxp, 0, 0);
                 }
@@ -712,14 +845,16 @@ void functionality(void)
 {
         glClear(GL_COLOR_BUFFER_BIT );
         cell_membrane(); //partially done, i.e. opening and closing. waiting yet to be deployed
-        cells(); //done
-        concentration_indicator(); //done
-        sodium(); // modeling done, translation left
+        cells(); //DONE!!
+        concentration_indicator(); //DONE!!
+        sodium_in(); // DONE!!
+        sodium_in_out(); // done! syncing left
         ATP(); // partially done. transition to ADP left over
-        potassium(); // modelling done, translation left
-        glucose_out(); //done
-        glucose_out_in();
-        channel_protein(); //partially done, i.e. opening and closing. waiting yet to be deployed
+        potassium_out(); // DONE!!
+        potassium_out_in(); //done! syncing left
+        glucose_out(); //DONE!!
+        glucose_out_in(); //DONE!! behaving as it is supposed to
+        channel_protein(); //DONE!!
 //        glutSwapBuffers(); //for animation; glFlush() not required as it implicitly applies before rendering
 //        glutPostRedisplay();// iteration over rendering to show the movable parts
 }
