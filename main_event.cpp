@@ -1,7 +1,6 @@
 #include <iostream>
 #include<GL/glut.h>
 #include<math.h>
-
 using namespace std;
 
 static bool paused = false;
@@ -26,6 +25,7 @@ void setFont(void *font)
         currentfont = font;
 }
 
+//BitMap strings
 void drawstring(float x, float y, float z, char *string)
 {
          char *c;
@@ -37,6 +37,7 @@ void drawstring(float x, float y, float z, char *string)
          }
 }
 
+//Stroke Strings for they behave as objects
 void draw_stroke_string(char *string)
 {
          char *c;
@@ -348,7 +349,7 @@ void cells(void) //total static
         drawstring(115, 16, 0, "CELLS");
 }
 
-float indy = 0;
+float indy = 0, x = 0;
 void concentration_indicator(void)
 {
         int k = 0, l = 0;
@@ -367,8 +368,9 @@ void concentration_indicator(void)
         // indicator position
         if (indy < 100 && !paused)
         {
-                indy += 0.0072; //for syncing with channel protein gateway
+                indy += 0.013;//for syncing with channel protein gateway
         }
+        x = indy;
         glPushMatrix();
         glTranslated(0, indy, 0);
         glColor3f(1, 1, 1);
@@ -535,62 +537,57 @@ void glucose_out(void)
                 glTranslatef(goxp, 0, 0);
         }
         int k = 0;
-        for(int i = 1; i <= 3; i += 1)
+        for(int i = 1; i <= 5; i += 1)
         {
                 glPushMatrix();
                 glColor3f(0.5, 1, 0.4);
                 glBegin(GL_POLYGON);
-                        glVertex2f(-110 + k, 90);
-                        glVertex2f(-115 + k, 85);
-                        glVertex2f(-110 + k, 80);
-                        glVertex2f(-105 + k, 80);
-                        glVertex2f(-100 + k, 85);
-                        glVertex2f(-105 + k, 90);
+                        glVertex2f(-130 + k, 90);
+                        glVertex2f(-135 + k, 85);
+                        glVertex2f(-130 + k, 80);
+                        glVertex2f(-125 + k, 80);
+                        glVertex2f(-120 + k, 85);
+                        glVertex2f(-125 + k, 90);
                 glEnd();
                 glColor3f(1, 0, 0);
-                glTranslatef(-112.5 + k, 83.5, 0);
+                glTranslatef(-138 + k, 83.5, 0);
                 glScalef(0.05, 0.03, 0);
                 setFont(GLUT_STROKE_ROMAN);
                 draw_stroke_string("Glucose");
                 glPopMatrix();
-                k += 50;
+                k += 40;
         }
-//        glRotatef(90, 0, 0, 1);
-//        k = 0;
-//        for (int i = 1; i <= 3; i +=1)
-//        {
-//                glPushMatrix();
-//                glColor3f(1, 1, 0.2);
-//                glBegin(GL_POLYGON);
-//                        glVertex2f(-108 + k, 75);
-//                        glVertex2f(-113 + k, 70);
-//                        glVertex2f(-113 + k, 65);
-//                        glVertex2f(-108 + k, 60);
-//                        glVertex2f(-103 + k, 65);
-//                        glVertex2f(-103 + k, 70);
-//                glEnd();
-//                glColor3f(1, 0, 0);
-//                glTranslatef(-112.5 + k, 65.5, 0);
-//                glScalef(0.05, 0.03, 0);
-//                setFont(GLUT_STROKE_ROMAN);
-//                draw_stroke_string("C6H12O6");
-//                glPopMatrix();
-//                k += 100;
-//        }
         glPopMatrix();
 }
 
-float gluy = 0; //glucose movement 3 Right : 2 Left
+float glulx = 0, glurx = 0, gluy = 0; //glucose movement 3 Right : 2 Left
 void glucose_out_in(void)
 {
         glPushMatrix();
         glRotatef(90, 0, 0, 1);
         glTranslatef(190, -128, 0);
-        if(gluy >= -140 && !paused)
+        if (x > 100 && !paused)
         {
-                gluy -= 0.01;
+                if(gluy >= -140 && !paused)
+                {
+                        gluy -= 0.02;
+                }
+                glTranslatef(gluy, 0, 0);
         }
-        glTranslatef(gluy, 0, 0);
+        else
+        {
+                if(glulx >= -20 && !paused)
+                {
+                        glulx -= 0.0053;
+                        glTranslatef(0, glulx, 0);
+                        glurx = glulx;
+                }
+                else if(glurx <= 0 && !paused)
+                {
+                        glurx += 0.0053;
+                        glTranslatef(0, glurx, 0);
+                }
+        }
         int k = 0;
         for (int i = 1; i <= 3; i +=1)
         {
@@ -611,7 +608,7 @@ void glucose_out_in(void)
                 setFont(GLUT_STROKE_ROMAN);
                 draw_stroke_string("C6H12O6");
                 glPopMatrix();
-                k += 25;
+                k += 20;
         }
         glPopMatrix();
 }
@@ -638,16 +635,26 @@ void channel_protein(void)
         glColor3f(0.25, 0.15, 0.75);
         glPushMatrix();
         //movable parts
-        if (cplxn >= -30 && !paused)
+        if (x > 100 && !paused)
         {
-                cplxn -= 0.004;
-                glTranslatef(cplxn, 0, 0);
-                cplxp = cplxn;
-        }
-       else if (cplxp <= 0 && !paused)
-        {
-                cplxp += 0.001;
-                glTranslatef(cplxp, 0, 0);
+                if (cplxn >= -30 && !paused)
+                {
+                        cplxn -= 0.008;
+                        glTranslatef(cplxn, 0, 0);
+                        cplxp = cplxn;
+                }
+               else if (cplxp <= 0 && !paused)
+                {
+                        if (cplxp <= -23 && !paused)
+                        {
+                                cplxp += 0.002;
+                        }
+                        else
+                        {
+                                cplxp += 0.024;
+                        }
+                        glTranslatef(cplxp, 0, 0);
+                }
         }
         glBegin(GL_QUADS);
                 glVertex2d(75, -30);
@@ -657,16 +664,26 @@ void channel_protein(void)
         glEnd();
         glPopMatrix();
         glPushMatrix();
-        if (cpuxp <= 30 && !paused)
+        if (x > 100 && !paused)
         {
-                cpuxp += 0.016;
-                glTranslatef(cpuxp, 0, 0);
-                cpuxn = cpuxp;
-        }
-        else if (cpuxn >= 0 && !paused)
-        {
-                cpuxn -= 0.0008;
-                glTranslatef(cpuxn, 0, 0);
+                if (cpuxp <= 30 && !paused)
+                {
+                        cpuxp += 0.024;
+                        glTranslatef(cpuxp, 0, 0);
+                        cpuxn = cpuxp;
+                }
+                else if (cpuxn >= 0 && !paused)
+                {
+                        if (cpuxn >= 20 && !paused)
+                        {
+                                cpuxn -= 0.002;
+                        }
+                        else
+                        {
+                                cpuxn -= 0.03;
+                        }
+                        glTranslatef(cpuxn, 0, 0);
+                }
         }
         glBegin(GL_QUADS);
                 glVertex2d(45, 20);
