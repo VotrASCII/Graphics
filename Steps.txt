@@ -35,9 +35,9 @@ ATP action:
 * this energy is responsible for conformational change of the cell .i.e. opening from inside to opening outside
 
 Electrochemical gradient:
-* potential difference sets up due to higher concentration of Na+ outside and lower concentration of Na+ inside; increased +ve charge
-* due to movement of Na+ against concentration gradient
+* potential difference sets up due to higher concentration of Na+ outside and lower concentration of Na+ inside; increased +ve charge due to movement of Na+ against concentration gradient
 * void concentration_indicator(void): indicator to show the rise in concentration or potential gradient build up
+* when the concentration gradient levels up from red to absolute green the transportation of glucose from outer region to inner region of the cell starts
 
 Channel protein:
 * pathway for glucose to pass through from lower concentration to higher concentration via. symporters (Secondary Active Transport)
@@ -45,4 +45,3 @@ Channel protein:
     * consist of two gates
     * one opening to let the outside molecules come in; i.e. from outside environment to inside
     * another one that lets the molecule from the outside to pass in to inside of the cell
-    
