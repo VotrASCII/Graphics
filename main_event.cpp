@@ -1,6 +1,7 @@
 #include <iostream>
 #include<GL/glut.h>
 #include<math.h>
+
 using namespace std;
 
 static bool paused = false;
@@ -68,14 +69,14 @@ void draw_stroke_string(char *string)
         drawstring(-120.0, -10.0, 1.0,"2. MAYANK PRAKASH                                                                1PE14CS070");
         setFont(GLUT_BITMAP_9_BY_15);
         glColor3f(0.95, 0.15, 0.0);
-        drawstring(-120.0, -40.0, 1.0,"UNDER THE GUIDANCE OF");
+        drawstring(-120.0, -40.0, 1.0,"UNDER THE GUIDANCE OF:...");
         setFont(GLUT_BITMAP_TIMES_ROMAN_24);
         glColor3f(0.502, 0.502, 0.000);
         drawstring(-120.0, -50.0, 1.0,"1. Ms. SHUBHA RAJ");
         glColor3f(0.502, 0.502, 0.000);
         drawstring(-120.0, -60.0, 1.0,"2. Dr. SARASVATHI");
         glColor3f(0.196, 0.804, 0.196);
-        drawstring(-30.0, -80.0, 1.0,"RIGHT CLICK TO START");
+        drawstring(-30.0, -80.0, 1.0,"RIGHT CLICK TO SELECT");
         glutSwapBuffers();
         glutPostRedisplay();
 }
@@ -366,7 +367,7 @@ void concentration_indicator(void)
         // indicator position
         if (indy < 100 && !paused)
         {
-                indy += 0.0134; //for syncing with channel protein gateway
+                indy += 0.0072; //for syncing with channel protein gateway
         }
         glPushMatrix();
         glTranslated(0, indy, 0);
@@ -419,7 +420,7 @@ void sodium(void)
                 setFont(GLUT_STROKE_ROMAN);
                 draw_stroke_string("Na+");
                 glPopMatrix();
-                k += 50;
+                k += 15;
         }
         glPopMatrix();
 }
@@ -476,7 +477,7 @@ void ATP(void)
                 setFont(GLUT_STROKE_ROMAN);
                 draw_stroke_string("ATP");
                 glPopMatrix();
-                k += 90;
+                k += 50;
         }
         glPopMatrix();
 }
@@ -513,7 +514,7 @@ void potassium(void)
                 setFont(GLUT_STROKE_ROMAN);
                 draw_stroke_string("K+");
                 glPopMatrix();
-                k += 45;
+                k += 25;
         }
         glPopMatrix();
 }
@@ -552,37 +553,68 @@ void glucose_out(void)
                 setFont(GLUT_STROKE_ROMAN);
                 draw_stroke_string("Glucose");
                 glPopMatrix();
-                k += 100;
+                k += 50;
         }
-        k = 0;
+//        glRotatef(90, 0, 0, 1);
+//        k = 0;
+//        for (int i = 1; i <= 3; i +=1)
+//        {
+//                glPushMatrix();
+//                glColor3f(1, 1, 0.2);
+//                glBegin(GL_POLYGON);
+//                        glVertex2f(-108 + k, 75);
+//                        glVertex2f(-113 + k, 70);
+//                        glVertex2f(-113 + k, 65);
+//                        glVertex2f(-108 + k, 60);
+//                        glVertex2f(-103 + k, 65);
+//                        glVertex2f(-103 + k, 70);
+//                glEnd();
+//                glColor3f(1, 0, 0);
+//                glTranslatef(-112.5 + k, 65.5, 0);
+//                glScalef(0.05, 0.03, 0);
+//                setFont(GLUT_STROKE_ROMAN);
+//                draw_stroke_string("C6H12O6");
+//                glPopMatrix();
+//                k += 100;
+//        }
+        glPopMatrix();
+}
+
+float gluy = 0; //glucose movement 3 Right : 2 Left
+void glucose_out_in(void)
+{
+        glPushMatrix();
+        glRotatef(90, 0, 0, 1);
+        glTranslatef(190, -128, 0);
+        if(gluy >= -140 && !paused)
+        {
+                gluy -= 0.01;
+        }
+        glTranslatef(gluy, 0, 0);
+        int k = 0;
         for (int i = 1; i <= 3; i +=1)
         {
                 glPushMatrix();
                 glColor3f(1, 1, 0.2);
                 glBegin(GL_POLYGON);
-                        glVertex2f(-108 + k, 75);
-                        glVertex2f(-113 + k, 70);
-                        glVertex2f(-113 + k, 65);
-                        glVertex2f(-108 + k, 60);
-                        glVertex2f(-103 + k, 65);
-                        glVertex2f(-103 + k, 70);
+                        glVertex2f(-143 + k, 75);
+                        glVertex2f(-148 + k, 70);
+                        glVertex2f(-148 + k, 65);
+                        glVertex2f(-143 + k, 60);
+                        glVertex2f(-138 + k, 65);
+                        glVertex2f(-138 + k, 70);
                 glEnd();
                 glColor3f(1, 0, 0);
-                glTranslatef(-112.5 + k, 65.5, 0);
+                glTranslatef(-145 + k, 75.5, 0);
                 glScalef(0.05, 0.03, 0);
+                glRotatef(-90, 0, 0, 1);
                 setFont(GLUT_STROKE_ROMAN);
                 draw_stroke_string("C6H12O6");
                 glPopMatrix();
-                k += 100;
+                k += 25;
         }
         glPopMatrix();
 }
-
-//float glulx = 0, glurx = 0, gluy = 0; //glucose movement 3 Right : 2 Left
-//void glucose_out_in(void)
-//{
-//                glColor3f()
-//}
 
 // active transport initiation for glucose transportation when potential builds up; i.e. channel protein opens-up
 float cplxn = 0, cplxp = 0;
@@ -608,13 +640,13 @@ void channel_protein(void)
         //movable parts
         if (cplxn >= -30 && !paused)
         {
-                cplxn -= 0.008;
+                cplxn -= 0.004;
                 glTranslatef(cplxn, 0, 0);
                 cplxp = cplxn;
         }
        else if (cplxp <= 0 && !paused)
         {
-                cplxp += 0.008;
+                cplxp += 0.001;
                 glTranslatef(cplxp, 0, 0);
         }
         glBegin(GL_QUADS);
@@ -627,13 +659,13 @@ void channel_protein(void)
         glPushMatrix();
         if (cpuxp <= 30 && !paused)
         {
-                cpuxp += 0.008;
+                cpuxp += 0.016;
                 glTranslatef(cpuxp, 0, 0);
                 cpuxn = cpuxp;
         }
         else if (cpuxn >= 0 && !paused)
         {
-                cpuxn -= 0.008;
+                cpuxn -= 0.0008;
                 glTranslatef(cpuxn, 0, 0);
         }
         glBegin(GL_QUADS);
@@ -661,6 +693,7 @@ void channel_protein(void)
 
 void functionality(void)
 {
+        glClear(GL_COLOR_BUFFER_BIT );
         cell_membrane(); //partially done, i.e. opening and closing. waiting yet to be deployed
         cells(); //done
         concentration_indicator(); //done
@@ -668,8 +701,10 @@ void functionality(void)
         ATP(); // partially done. transition to ADP left over
         potassium(); // modelling done, translation left
         glucose_out(); //done
-        //glucose_out_in();
+        glucose_out_in();
         channel_protein(); //partially done, i.e. opening and closing. waiting yet to be deployed
+//        glutSwapBuffers(); //for animation; glFlush() not required as it implicitly applies before rendering
+//        glutPostRedisplay();// iteration over rendering to show the movable parts
 }
 
 void display(void)
@@ -681,11 +716,13 @@ void display(void)
                         first_page();
                         break;
                 case initial:
+                        paused = true;
                         functionality();
                         glutSwapBuffers();
                         break;
                 //rotation yet to applied
                 case action:
+                        paused = false;
                         functionality();
                         glutSwapBuffers(); //for animation; glFlush() not required as it implicitly applies before rendering
                         glutPostRedisplay();// iteration over rendering to show the movable parts
@@ -754,12 +791,13 @@ int main(int argc, char **argv)
         glClearColor(0, 0, 0 , 0); //initialization before rendering
         glutDisplayFunc(display); //called whenever window needs to be drawn
         glutCreateMenu(menu_select);
-        glutAddMenuEntry("title", title);
-        glutAddMenuEntry("initial configuration", initial);
-        glutAddMenuEntry("how it happens", action);
-        glutAddMenuEntry("quit", quit);
+        glutAddMenuEntry("Title...", title);
+        glutAddMenuEntry("Initial Configuration...", initial);
+        glutAddMenuEntry("How It Happens??", action);
+        glutAddMenuEntry("Quit!!", quit);
         glutAttachMenu(GLUT_RIGHT_BUTTON);
         glutKeyboardFunc(handleKeypress);
+//        glutIdleFunc(display);
         glutReshapeFunc(reshape);
         glutMainLoop();
         return 0;
