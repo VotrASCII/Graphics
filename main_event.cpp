@@ -103,15 +103,29 @@ void cell_membrane(void)
         //movable parts
         glPushMatrix();
         glColor3f(1, 0.15, 0);
-        if(cmlxn >= -30 && !paused)
+        if(cmlxn >= -30 && !paused) //lower; synced with concentration gradient
         {
-                cmlxn -= 0.008;
+                if(cmlxn >= -14)
+                {
+                        cmlxn -= 0.02;
+                }
+                else
+                {
+                        cmlxn -= 0.00268;
+                }
                 glTranslated(cmlxn, 0, 0);
                 cmlxp = cmlxn;
         }
         else if (cmlxp <= 0 && !paused)
         {
-                cmlxp += 0.008;
+                if (cmlxp <= -29)
+                {
+                        cmlxp += 0.002;
+                }
+                else
+                {
+                        cmlxp += 0.02;
+                }
                 glTranslated(cmlxp, 0, 0);
         }
         glBegin(GL_QUADS);
@@ -123,9 +137,16 @@ void cell_membrane(void)
         glPopMatrix();
 
         glPushMatrix();
-        if (cmuxp <= 30 && !paused)
+        if (cmuxp <= 30 && !paused) //upper synced with concentration gradient
         {
-                cmuxp += 0.008;
+                if (cmuxp <= 25 && !paused)
+                {
+                        cmuxp += 0.02;
+                }
+                else
+                {
+                        cmuxp += 0.002;
+                }
                 glTranslatef(cmuxp  , 0, 0);
                 cmuxn = cmuxp;
         }
@@ -398,7 +419,7 @@ void concentration_indicator(void)
         glScalef(0.05, 0.05, 0);
         glRotatef(-90, 0, 0, 1);
         setFont(GLUT_STROKE_ROMAN);
-        draw_stroke_string("Concentration Indicator");
+        draw_stroke_string("Concentration Gradient");
         glPopMatrix();
 }
 
@@ -425,22 +446,22 @@ void sodium_in(void)
                 if (i <= 3)
                 {
                         glBegin(GL_POLYGON);
-                                glVertex2d(-40 + k -10, -45);
-                                glVertex2d(-45 + k -10, -50);
-                                glVertex2d(-40 + k -10, -55);
+                                glVertex2d(-30 + k -10, -45);
                                 glVertex2d(-35 + k -10, -50);
+                                glVertex2d(-30 + k -10, -55);
+                                glVertex2d(-25 + k -10, -50);
                         glEnd();
-                        glTranslatef(-43 + k -10, -51.5, 0);
+                        glTranslatef(-33 + k -10, -51.5, 0);
                 }
                 else
                 {
                         glBegin(GL_POLYGON);
-                                glVertex2d(-40 + k, -45);
-                                glVertex2d(-45 + k, -50);
-                                glVertex2d(-40 + k, -55);
+                                glVertex2d(-30 + k, -45);
                                 glVertex2d(-35 + k, -50);
+                                glVertex2d(-30 + k, -55);
+                                glVertex2d(-25 + k, -50);
                         glEnd();
-                        glTranslatef(-43 + k, -51.5, 0);
+                        glTranslatef(-33 + k, -51.5, 0);
                 }
                 glColor3f(0, 0, 0.5);
                 glScalef(0.03, 0.025, 0);
@@ -457,37 +478,27 @@ void sodium_in_out(void)
 {
         glPushMatrix();
         glRotatef(90, 0, 0, 1);
-        if (nay <= 160 && !paused)
+        glTranslatef(-60, 113, 0);
+        if (cmlxn <= -14 && !paused)
         {
-                nay += 0.0053;
+                if (nay <= 110 && !paused)
+                {
+                        nay += 0.035;
+                }
         }
         glTranslatef(nay, 0, 0);
         k = 0;
-        for(int i = 1; i <= 6; i += 1)
+        for(int i = 1; i <= 3; i += 1)
         {
                 glPushMatrix();
-                glTranslatef(-80, 113, 0);
                 glColor3f(0.5, 0.75, 0.5);
-                if (i <= 3)
-                {
-                        glBegin(GL_POLYGON);
-                                glVertex2d(-40 + k - 10, -45);
-                                glVertex2d(-45 + k - 10, -50);
-                                glVertex2d(-40 + k - 10, -55);
-                                glVertex2d(-35 + k - 10, -50);
-                        glEnd();
-                        glTranslatef(-41.5 + k - 10, -47, 0);
-                }
-                else
-                {
-                        glBegin(GL_POLYGON);
-                                glVertex2d(-40 + k, -45);
-                                glVertex2d(-45 + k, -50);
-                                glVertex2d(-40 + k, -55);
-                                glVertex2d(-35 + k, -50);
-                        glEnd();
-                        glTranslatef(-41.5 + k, -47, 0);
-                }
+                glBegin(GL_POLYGON);
+                        glVertex2d(-10 + k, -45);
+                        glVertex2d(-15 + k, -50);
+                        glVertex2d(-10 + k, -55);
+                        glVertex2d(-5 + k, -50);
+                glEnd();
+                glTranslatef(-11.5 + k, -47, 0);
                 glColor3f(0, 0, 0.5);
                 glRotatef(-90, 0, 0, 1);
                 glScalef(0.03, 0.025, 0);
@@ -515,7 +526,7 @@ void ATP(void)
                 atprx += 0.0053;
                 glTranslatef(atprx, 0, 0);
         }
-        for(int i = 1; i <= 4; i += 1)
+        for(int i = 1; i <= 3; i += 1)
         {
                 glPushMatrix();
                 glColor3f(0, 1, 1);
@@ -551,7 +562,7 @@ void ATP(void)
                 setFont(GLUT_STROKE_ROMAN);
                 draw_stroke_string("ATP");
                 glPopMatrix();
-                k += 25;
+                k += 20;
         }
         glPopMatrix();
 }
@@ -579,22 +590,22 @@ void potassium_out(void)
                 if (i <= 2)
                 {
                         glBegin(GL_POLYGON);
-                                glVertex2d(-40 - 10 + k, 35);
-                                glVertex2d(-47 - 10 + k, 42);
-                                glVertex2d(-40 - 10 + k, 49);
-                                glVertex2d(-33 - 10 + k, 42);
+                                glVertex2d(-30 - 10 + k, 35);
+                                glVertex2d(-37 - 10 + k, 42);
+                                glVertex2d(-30 - 10 + k, 49);
+                                glVertex2d(-23 - 10 + k, 42);
                         glEnd();
-                        glTranslatef(-44 - 10 + k, 41, 0);
+                        glTranslatef(-34 - 10 + k, 41, 0);
                 }
                 else
                 {
                         glBegin(GL_POLYGON);
-                                glVertex2d(-40 + k, 35);
-                                glVertex2d(-47 + k, 42);
-                                glVertex2d(-40 + k, 49);
-                                glVertex2d(-33 + k, 42);
+                                glVertex2d(-30 + k, 35);
+                                glVertex2d(-37 + k, 42);
+                                glVertex2d(-30 + k, 49);
+                                glVertex2d(-23 + k, 42);
                         glEnd();
-                        glTranslatef(-44 + k, 41, 0);
+                        glTranslatef(-34 + k, 41, 0);
                 }
                 glColor3f(0, 0, 1);
                 glScalef(0.05, 0.03, 0);
@@ -611,37 +622,27 @@ void potassium_out_in(void)
 {
         glPushMatrix();
         glRotatef(90, 0, 0, 1);
-        glTranslatef(100, 35, 0);
-        if(ky >= -120 && !paused)
+        glTranslatef(120, 35, 0);
+        if (nay >= 110 && !paused)
         {
-                ky -= 0.02;
+                if(ky >= -110 && !paused)
+                {
+                        ky -= 0.0285;
+                }
         }
         glTranslatef(ky, 0, 0);
         k = 0;
-        for(int i = 1; i <= 4; i += 1)
+        for(int i = 1; i <= 2; i += 1)
         {
                 glPushMatrix();
                 glColor3f(0.8, 0.4, 0);
-                if(i <= 2)
-                {
-                         glBegin(GL_POLYGON);
-                                glVertex2d(-70 -10 + k, 35);
-                                glVertex2d(-77 -10 + k, 42);
-                                glVertex2d(-70 -10 + k, 49);
-                                glVertex2d(-63 -10 + k, 42);
-                        glEnd();
-                        glTranslatef(-72 + k - 10, 46, 0);
-                }
-                else
-                {
-                        glBegin(GL_POLYGON);
-                                glVertex2d(-70 + k, 35);
-                                glVertex2d(-77 + k, 42);
-                                glVertex2d(-70 + k, 49);
-                                glVertex2d(-63 + k, 42);
-                        glEnd();
-                        glTranslatef(-72 + k, 46, 0);
-                }
+                glBegin(GL_POLYGON);
+                        glVertex2d(-70 -10 + k, 35);
+                        glVertex2d(-77 -10 + k, 42);
+                        glVertex2d(-70 -10 + k, 49);
+                        glVertex2d(-63 -10 + k, 42);
+                glEnd();
+                glTranslatef(-72 + k - 10, 46, 0);
                 glColor3f(0, 0, 1);
                 glRotatef(-90, 0, 0, 1);
                 glScalef(0.05, 0.03, 0);
@@ -700,7 +701,7 @@ void glucose_out_in(void)
         glTranslatef(190, -128, 0);
         if (x > 100 && !paused)
         {
-                if(gluy >= -140 && !paused)
+                if(gluy >= -110 && !paused)
                 {
                         gluy -= 0.02;
                 }
@@ -844,14 +845,14 @@ void channel_protein(void)
 void functionality(void)
 {
         glClear(GL_COLOR_BUFFER_BIT );
-        cell_membrane(); //partially done, i.e. opening and closing. waiting yet to be deployed
+        cell_membrane(); // DONE!!
         cells(); //DONE!!
         concentration_indicator(); //DONE!!
         sodium_in(); // DONE!!
-        sodium_in_out(); // done! syncing left
-        ATP(); // partially done. transition to ADP left over
+        sodium_in_out(); // DONE!! synced with Concentration Indicator
+        ATP(); // Please spare me!! :-P
         potassium_out(); // DONE!!
-        potassium_out_in(); //done! syncing left
+        potassium_out_in(); // DONE!! synced with Concentration Indicator
         glucose_out(); //DONE!!
         glucose_out_in(); //DONE!! behaving as it is supposed to
         channel_protein(); //DONE!!
@@ -872,7 +873,6 @@ void display(void)
                         functionality();
                         glutSwapBuffers();
                         break;
-                //rotation yet to applied
                 case action:
                         paused = false;
                         functionality();
@@ -922,13 +922,6 @@ void handleKeypress(unsigned char key, int x, int y)
         }
 }
 
-/*void init()
-{
-        glClearColor(0.0, 0.0, 0.0, 1.0);
-        glColor3f(1.0, 0.0, 0.0);
-        gluOrtho2D(0.0, 639.0, 0.0, 479.0);
-}*/
-
 int main(int argc, char **argv)
 {
         glutInit(&argc, argv); //to pass command line arguments and initialize GLUT library
@@ -938,7 +931,6 @@ int main(int argc, char **argv)
                                                                                                                         *RGBA, i.e. specify colors with separate intensities */
         glutInitWindowSize(1000, 480);
         glutInitWindowPosition(0,0);
-      //  init();
         glutCreateWindow("Na+/K+ pump"); // creates window on the screen
         glClearColor(0, 0, 0 , 0); //initialization before rendering
         glutDisplayFunc(display); //called whenever window needs to be drawn
@@ -949,7 +941,6 @@ int main(int argc, char **argv)
         glutAddMenuEntry("Quit!!", quit);
         glutAttachMenu(GLUT_RIGHT_BUTTON);
         glutKeyboardFunc(handleKeypress);
-//        glutIdleFunc(display);
         glutReshapeFunc(reshape);
         glutMainLoop();
         return 0;
