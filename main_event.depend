@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1494600367 source:d:\cg project\main_event\main.cpp
+	<iostream>
+	<GL/glut.h>
+	<math.h>
+
